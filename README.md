@@ -26,6 +26,6 @@ _3 TILs and counting..._
 - [hellogit](git/hellogit.md)
 
 ### [스프링](#스프링)
-- [스프링 MVC 기본](스프링/스프링MVC 기본.md)
+- [스프링MVC기본](스프링/스프링MVC 기본.md)
 
 
