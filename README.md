@@ -11,7 +11,7 @@ _2 TILs and counting..._
 ### 2 most recent TILs
 
 - [](JAVA/hello.md) - Tue Nov 7 22:43:19 2023 +0900
-- [](스프링/hello.md) - Tue Nov 7 22:44:14 2023 +0900
+- [#good##](스프링/hello.md) - Tue Nov 7 22:44:14 2023 +0900
 
 ### Categories
 
@@ -22,6 +22,6 @@ _2 TILs and counting..._
 - [](JAVA/hello.md)
 
 ### [스프링](#스프링)
-- [](스프링/hello.md)
+- [#good##](스프링/hello.md)
 
 
