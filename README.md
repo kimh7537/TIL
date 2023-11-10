@@ -10,8 +10,8 @@ _3 TILs and counting..._
 
 ### 2 most recent TILs
 
+- [Object 클래스 메서드 활용](JAVA/Object 클래스 메서드 활용.md) - Sat Nov 11 02:26:39 2023 +0900
 - [hellogit](GIT/hellogit.md) - Wed Nov 8 14:37:44 2023 +0900
-- [](JAVA/hello.md) - Tue Nov 7 22:43:19 2023 +0900
 
 ### Categories
 
@@ -23,7 +23,7 @@ _3 TILs and counting..._
 - [hellogit](GIT/hellogit.md)
 
 ### [JAVA](#JAVA)
-- [](JAVA/hello.md)
+- [Object 클래스 메서드 활용](JAVA/Object 클래스 메서드 활용.md)
 
 ### [스프링](#스프링)
 - [스프링MVC기본](스프링/스프링MVC기본.md)
