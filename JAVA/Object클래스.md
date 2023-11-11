@@ -121,18 +121,14 @@ System.out.println(std1.equals(std2));   //논리적으로 같은 값이라 true
 ---
 ## ✏️ `hashCode()`
 ### ✔️ 오버라이드 하기 전
-- hashCode()는 인스턴스의 저장 주소를 반환함
+- `hashCode()`는 인스턴스의 저장 주소를 반환함
 - 힙메모리에 인스턴스가 저장되는 방식이 hash 방식
 - 자료의 특정 값(키 값)에 대한 저장 위치를 반환해주는 해시 함수를 사용
-
-두 인스턴스가 같으면 equals()의 반환 값이 true
-동일한 hashCode() 값을 반환
-
-
-
-
+- 두 인스턴스가 같으면 `equals()`(오버라이딩 안함)의 반환 값이 true
+<br> $\rarr$ 동일한 `hashCode()` 값을 반환
 ### ✔️ 오버라이드 하고난 후
 - 논리적으로 동일함을 위해 equals() 메서드를 재정의 하였다면 hashCode()메서드도 재정의 하여 동일한 hashCode 값이 반환되도록 한다
+
 ```java
 @Override
 	public int hashCode() {
@@ -145,7 +141,7 @@ System.out.println(std2.hashCode());  //equals가 재정의 되어있는데 true
 System.out.println(System.identityHashCode(std1));
 System.out.println(System.identityHashCode(std2));
 ```
-
+- `System.identityHashCode()` : 해쉬코드 값을 반환해줌(오버라이딩한 후 필요한 경우에 사용)
 ---
 ## ✏️ `clone()`
 - 객체의 원본을 복제하는데 사용하는 메서드
