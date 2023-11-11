@@ -63,7 +63,7 @@ public class BookTest {
 >데미안, 헤르만 헤세<br>
 데미안, 헤르만 헤세<br>
 test
-- `String`이나 `Integer`` 클래스는 이미 재정의 되어 있음
+- `String`이나 `Integer` 클래스는 이미 재정의 되어 있음
 
 ---
 ## ✏️ `equals()`
