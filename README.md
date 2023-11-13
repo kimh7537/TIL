@@ -10,7 +10,7 @@ _4 TILs and counting..._
 
 ### 2 most recent TILs
 
-- [](JAVA/String관련.md) - Mon Nov 13 18:46:48 2023 +0900
+- [String관련](JAVA/String관련.md) - Mon Nov 13 18:46:48 2023 +0900
 - [Object클래스](JAVA/Object클래스.md) - Sat Nov 11 02:30:31 2023 +0900
 
 ### Categories
@@ -24,7 +24,7 @@ _4 TILs and counting..._
 
 ### [JAVA](#JAVA)
 - [Object클래스](JAVA/Object클래스.md)
-- [](JAVA/String관련.md)
+- [String관련](JAVA/String관련.md)
 
 ### [스프링](#스프링)
 - [스프링MVC기본](스프링/스프링MVC기본.md)
