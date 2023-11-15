@@ -98,8 +98,3 @@ public static void main(String[] args) {
 	
     }
 ```
-    
-<<<<<<< HEAD
-=======
-
->>>>>>> 7dbc843bec8c93e2d71ae600c950a73cbd8f347e
