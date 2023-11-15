@@ -3,9 +3,9 @@
 ## ✏️ String
 ### ✔️ String 선언하기
 
->String str1 = new String("abc");
-<br>
-String str2 = "abc";
+>String str1 = new String("abc");<br>
+
+>String str2 = "abc";
 <br>String str2 = "abc";
 
 1. 힙 메모리에 인스턴스로 생성하는 경우
