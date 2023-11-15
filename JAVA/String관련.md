@@ -6,6 +6,8 @@
 >String str1 = new String("abc");
 <br>
 String str2 = "abc";
+<br>String str2 = "abc";
+
 1. 힙 메모리에 인스턴스로 생성하는 경우
 2. 상수 풀에 있는 주소를 참조하는 방법
 
@@ -97,3 +99,7 @@ public static void main(String[] args) {
     }
 ```
     
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7dbc843bec8c93e2d71ae600c950a73cbd8f347e
