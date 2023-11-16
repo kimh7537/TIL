@@ -1,1 +1,9 @@
 # hellogit
+
+
+---
+- `fork`
+
+- `clone`
+
+- `push`
