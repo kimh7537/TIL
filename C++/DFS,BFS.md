@@ -318,7 +318,7 @@ int main(){
 vector<int> adj[1004]; 
 int visited[1004];
 
-void postOrder(int here){ 
+void postOrder(int here){  //자식(left)->자식(right)->부모
   	if(visited[here] == 0){ 
   		if(adj[here].size() == 1)postOrder(adj[here][0]);
   		if(adj[here].size() == 2){
@@ -330,7 +330,7 @@ void postOrder(int here){
   		cout << here << ' ';
 	} 
 } 
-void preOrder(int here){ 
+void preOrder(int here){ //부모->자식(left)->자식(right)
   	if(visited[here] == 0){
   		visited[here] = 1; 
   		cout << here << ' ';
@@ -342,7 +342,7 @@ void preOrder(int here){
 		}
 	}
 }  
-void inOrder(int here){   	
+void inOrder(int here){ //자식(left)->부모->자식(right) 	
 	if(visited[here] == 0){ 
   		if(adj[here].size() == 1){ 
   			inOrder(adj[here][0]); 
