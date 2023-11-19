@@ -6,6 +6,8 @@
 - **없음/있음**
 
 ## ✏️ 인접행렬, 인접리스트
+
+
 **공간복잡도**
 
  - 인접행렬 : O(V^2)
@@ -43,6 +45,8 @@ for(int j = 0; j < adj[i].size(); j++){
 ---
 ## ✏️ 맵
 ### ✔️ connected component(DFS)
+- 시작(main 부분)은 검증 거치기 2개
+- 중간(dfs함수)은 검증 거치기 3개
 ```cpp
 #include<bits/stdc++.h>
 using namespace std; 
@@ -65,8 +69,6 @@ void dfs(int y, int x){
 }
 
 int main(){ 
-    cin.tie(NULL);
-    cout.tie(NULL);
     cin >> n >> m; 
     for(int i = 0; i < n; i++){
     	for(int j = 0; j < m; j++){
@@ -87,57 +89,27 @@ int main(){
 
 
 ### ✔️ 최단거리 구하기(BFS)
+- 시작(main 부분)은 `bfs(0,0)`으로 시작하는 경우 있음
+- 중간(bfs함수)은 검증 거치기 3개
 ```cpp
-#include<bits/stdc++.h>
-using namespace std;     
-vector<int> adj[100];
-int visited[100]; 
-int nodeList[] = {10, 12, 14, 16, 18, 20, 22, 24};
-void bfs(int here){
-    queue<int> q; 
-    visited[here] = 1; 
-    q.push(here);
-    while(q.size()){
-        int here = q.front(); q.pop();
-        for(int there : adj[here]){
-            if(visited[there]) continue;
-            visited[there] = visited[here] + 1;
-            q.push(there);
-        }
-    }
+queue<pair<int, int>> q;  
+visited[sy][sx] = 1;
+q.push({sy, sx});  
+while(q.size()){
+    tie(y, x) = q.front(); q.pop(); 
+    for(int i = 0; i < 4; i++){
+        int ny = y + dy[i]; 
+        int nx = x + dx[i]; 
+    if(ny<0||ny>=n||nx<0||nx>m||a[ny][nx] == 0) continue; 
+    if(visited[ny][nx]) continue; 
+         visited[ny][nx] = visited[y][x] + 1; 
+         q.push({ny, nx}); 
+   } 
 }
-int main(){
-    adj[10].push_back(12);
-    adj[10].push_back(14);
-    adj[10].push_back(16);
-    
-    adj[12].push_back(18);
-    adj[12].push_back(20);
-
-
-    adj[20].push_back(22);
-    adj[20].push_back(24);
-    bfs(10);
-    for(int i : nodeList){
-        cout << i << " : " << visited[i] << '\n';
-    }
-    cout << "10번으로부터 24번까지 최단거리는 : " << visited[24] - 1 << '\n';
-    return 0; 
-} 
-/*
-10 : 1
-12 : 2
-14 : 2
-16 : 2
-18 : 3
-20 : 3
-22 : 4
-24 : 4
-10번으로부터 24번까지 최단거리는 : 3
-*/
+printf("%d\n", visited[ey][ex]); 
+    // 최단거리 디버깅 
+   
 ```
-- 시작지점이 여러개라면 큐에 푸시하는 지점도 다수가 되어야 하며 해당 지점들의 visited를 모두 1로 만들면서 시작
-
 
 ---
 ## ✏️ DFS
@@ -174,6 +146,69 @@ void dfs(int here){
     }
 }
 ```
+**dfs예시1**
+- 인접 리스트 사용
+- main부분 검증 거치거나, 안거치거나
+- dfs함수 부분은 검증
+```cpp
+#include<bits/stdc++.h>
+using namespace std; 
+const int n = 10;
+vector<int> adj[n];  
+int visited[n];
+void dfs(int u){
+    visited[u] = 1;
+    cout << u << '\n';
+    for(int v : adj[u]){
+        if(visited[v] == 0){
+            dfs(v);
+        }
+    } 
+    return;
+}
+int main(){
+    adj[1].push_back(2);
+    adj[2].push_back(1);
+    ...
+    for(int i = 0; i < n; i++){
+        if(adj[i].size() && visited[i] == 0) dfs(i);
+    } 
+    // or dfs(1)
+} 
+```
+**dfs예시2**
+- 인접 행렬 사용(`map이랑은 다름!!`)
+- main부분 검증 거치거나, 안거치거나
+- dfs함수 부분은 검증
+```cpp
+#include<bits/stdc++.h>
+using namespace std; 
+const int n = 10;
+bool a[n][n], visited[n];
+void dfs(int from){ 
+	visited[from] = 1; 
+	cout << from << '\n';
+	for(int i = 0; i < n; i++){
+		if(visited[i]) continue;
+		if(a[from][i]){ 
+			dfs(i);
+		}
+	}
+	return;
+}
+int main(){
+	a[1][2] = 1; a[1][3] = 1; a[3][4] = 1;
+	a[2][1] = 1; a[3][1] = 1; a[4][3] = 1;
+	for(int i = 0;i < n; i++){
+		for(int j = 0; j < n; j++){
+			if(a[i][j] && visited[i] == 0){
+				dfs(i); 
+			}
+		}
+	} 
+} 
+```
+
 ---
 ## ✏️ BFS
 ### ✔️ BFS
@@ -194,6 +229,41 @@ BFS(G, u)
 2. 시작지점이 여러개라면 큐에 푸시하는 지점도 다수가 되어야 하며 해당 지점들의 visited를 모두 1로 만들면서 시작
 3. 가중치가 같은 그래프만 BFS사용
   - 가중치가 다른 그래프는 다익스트라, 벨만포드 등 사용
+
+**bfs예시1**
+- 인접 행렬 사용(`map이랑은 다름!!`)
+- main부분 검증 안함
+- bfs함수 부분은 검증
+```cpp
+#include<bits/stdc++.h>
+using namespace std;     
+vector<int> adj[100];
+int visited[100]; 
+int nodeList[] = {10, 12, 14, 16, 18, 20, 22, 24};
+void bfs(int here){
+    queue<int> q; 
+    visited[here] = 1; 
+    q.push(here);
+    while(q.size()){
+        int here = q.front(); q.pop();
+        for(int there : adj[here]){
+            if(visited[there]) continue;
+            visited[there] = visited[here] + 1;
+            q.push(there);
+        }
+    }
+}
+int main(){
+    adj[10].push_back(12);
+    adj[10].push_back(14);
+    adj[10].push_back(16);
+    ...
+    bfs(10);
+    
+    cout << "10번으로부터 24번까지 최단거리는 : " << visited[24] - 1 << '\n';
+    return 0; 
+} 
+```
 ---
 **DFS와 BFS비교**
 
@@ -203,11 +273,11 @@ BFS(G, u)
 1. 메모리를 덜 씀. 
 2. 절단점 등 구할 수 있음. 
 3. 코드가 좀 더 짧음.
-4. 완전탐색의 경우에 많이 씀.
+4. `완전탐색`의 경우에 많이 씀.
 
 >**BFS**<br>
 1. 메모리를 더 씀. 
-2. 가중치가 같은 그래프내에서 최단거리를 구할 수 있음.
+2. 가중치가 같은 그래프내에서 `최단거리`를 구할 수 있음.
 3. 코드가 더 김
 
 **"퍼져나간다", "탐색한다" 이 2글자가 있으면 반드시  DFS, BFS 생각해보기**
@@ -245,8 +315,6 @@ BFS(G, u)
 ---
 ## ✏️ 트리순회
 ```cpp
-#include <bits/stdc++.h>
-using namespace std; 
 vector<int> adj[1004]; 
 int visited[1004];
 
@@ -257,14 +325,16 @@ void postOrder(int here){
   			postOrder(adj[here][0]); 
   			postOrder(adj[here][1]);
 		}
+
   		visited[here] = 1; 
   		cout << here << ' ';
 	} 
 } 
-void preOrder(int here){
+void preOrder(int here){ 
   	if(visited[here] == 0){
   		visited[here] = 1; 
   		cout << here << ' ';
+
   		if(adj[here].size() == 1)preOrder(adj[here][0]);
   		if(adj[here].size() == 2){
   			preOrder(adj[here][0]); 
@@ -276,6 +346,7 @@ void inOrder(int here){
 	if(visited[here] == 0){ 
   		if(adj[here].size() == 1){ 
   			inOrder(adj[here][0]); 
+
 	  		visited[here] = 1; 
 	  		cout << here << ' ';
 		}else if(adj[here].size() == 2){
@@ -292,32 +363,8 @@ void inOrder(int here){
 	}
 
 } 
-int main(){
-	adj[1].push_back(2);
-	adj[1].push_back(3);
-	adj[2].push_back(4);
-	adj[2].push_back(5); 
-	int root = 1;
-    cout << "\n 트리순회 : postOrder \n";
-    postOrder(root); memset(visited, 0, sizeof(visited));
-    cout << "\n 트리순회 : preOrder \n"; 
-    preOrder(root); memset(visited, 0, sizeof(visited)); 
-    cout << "\n 트리순회 : inOrder \n"; 
-    inOrder(root); 
-    return 0;
-}
-/*
- 트리순회 : postOrder
-4 5 2 3 1
- 트리순회 : preOrder
-1 2 4 5 3
- 트리순회 : inOrder
-4 2 5 1 3
-*/
-[출처] [알고리즘 강의] 2주차. 그래프이론, 인접행렬, 인접리스트, DFS, BFS, 트리순회|작성자 큰돌
-
 ```
 
 ---
-> 참고 https://blog.naver.com/jhc9639/222289089015
+> ref. https://blog.naver.com/jhc9639/222289089015
 
