@@ -7,3 +7,5 @@
 - `clone`
 
 - `push`
+
+- git pull origin main
