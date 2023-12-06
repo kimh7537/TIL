@@ -1,4 +1,4 @@
-# MVC 활용
+# MVC활용
 
 ## ✏️ 간단한 웹페이지 구조
 ![](https://velog.velcdn.com/images/w009981/post/bb8a839c-72ff-43fd-8fe5-579cd5ed26e1/image.png)

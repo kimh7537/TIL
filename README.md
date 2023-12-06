@@ -4,7 +4,7 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_8 TILs and counting..._
+_9 TILs and counting..._
 
 ---
 
@@ -33,6 +33,7 @@ _8 TILs and counting..._
 - [ch1](데이터베이스/ch1.md)
 
 ### [스프링](#스프링)
+- [MVC활용](스프링/MVC활용.md)
 - [스프링MVC기본](스프링/스프링MVC기본.md)
 
 ### [알고리즘(C++)](#알고리즘(C++))
