@@ -13,15 +13,15 @@
 - @RequestMapping 에 method 속성으로 HTTP 메서드를 지정하지 않으면 HTTP 메서드와 무관하게 호출
 $\rarr$ 모두 허용 GET, HEAD, POST, PUT, PATCH, DELETE
 
-> 스프링 부트 3.0 이전 버전: URL(localhost:8080/...) $\rarr$ 매핑(RequestMapping)
-- 매핑 정보: `/hello-basic`
-- URL 요청 정보: `/hello-basic` `/hello-basic/`
+> 스프링 부트 3.0 이전 버전: URL(localhost:8080/...) $\rarr$ 매핑(RequestMapping)<br>
+>- 매핑 정보: `/hello-basic`
+>- URL 요청 정보: `/hello-basic` `/hello-basic/`
 > 
-스프링 부트 3.0 이후 버전: URL $\rarr$ 매핑
-- 매핑: `/hello-basic` URL 요청: `/hello-basic`
-- 매핑: `/hello-basic/` URL 요청: `/hello-basic/`
+>스프링 부트 3.0 이후 버전: URL $\rarr$ 매핑
+>- 매핑: `/hello-basic` URL 요청: `/hello-basic`
+>- 매핑: `/hello-basic/` URL 요청: `/hello-basic/`
 >
-기존에는 마지막에 있는 / (slash)를 제거했지만, 스프링 부트 3.0 부터는 마지막의 / (slash)를 유지한다.
+>기존에는 마지막에 있는 / (slash)를 제거했지만, 스프링 부트 3.0 부터는 마지막의 / (slash)를 유지한다.
 
 ---
 **2. 메서드 매핑**
@@ -326,16 +326,16 @@ public String modelAttributeV1(@ModelAttribute HelloData helloData) {
 }
 ```
 > - `HelloData` 클래스는 변수로 `String username`, `int age` 가지고 있음
-- 롬복 `@Data` 적용해 주기
+>- 롬복 `@Data` 적용해 주기
 `@Getter` , `@Setter` , `@ToString` , `@EqualsAndHashCode` , `@RequiredArgsConstructor` 를 자동으로 적용
 
 `@ModelAttribute` 실행 방법
 1. HelloData 객체를 생성
 2. 요청 파라미터(ex. username)의 이름으로 HelloData 객체의 프로퍼티를 찾고 setter(ex. setUsername())를 호출해서 파라미터의 값을 입력(바인딩)
->**프로퍼티**
-getXxx -> xxx(프로퍼티)
-setXxx -> xxx(프로퍼티)
-**바인딩 오류**
+>**프로퍼티**<br>
+getXxx -> xxx(프로퍼티)<br>
+setXxx -> xxx(프로퍼티)<br>
+**바인딩 오류**<br>
 `age=hello`처럼 숫자가 들어가야 할 곳에 문자 넣으면 `BindException`발생 
 
 **Version 9**
@@ -354,8 +354,8 @@ public String modelAttributeV2(HelloData helloData) {
 `@ModelAttribute` 는 생략 가능
 
 >생략할 때 규칙(생략된 것)
-- `String` , `int` , `Integer` 같은 단순 타입 = `@RequestParam`
-- 나머지 = `@ModelAttribute` (argument resolver 로 지정해둔 타입 외)
+>- `String` , `int` , `Integer` 같은 단순 타입 = `@RequestParam`
+>- 나머지 = `@ModelAttribute` (argument resolver 로 지정해둔 타입 외)
 
 ---
 #### ✨ HTTP 요청 메시지 - 텍스트
@@ -395,7 +395,7 @@ throws IOException {
 */
 @PostMapping("/request-body-string-v3")
 public HttpEntity<String> requestBodyStringV3(HttpEntity<String> httpEntity){
- 								//RequestEntity<String> httpEntity 변경 가능
+ 			//RequestEntity<String> httpEntity 변경 가능
 	String messageBody = httpEntity.getBody();
     return new HttpEntity<>("ok");
     //return new ResponseEntity<>("ok", HttpStatus.CREATED); 변경 가능
@@ -426,7 +426,8 @@ public String requestBodyStringV4(@RequestBody String messageBody) {
 - 응답 결과를 HTTP 메시지 바디에 직접 담아서 전달(view 사용x)
 
 > 
-요청 파라미터를 조회하는 기능: `@RequestParam` , `@ModelAttribute`
+요청 파라미터를 조회하는 기능: `@RequestParam` , `@ModelAttribute`<br>
+
 HTTP 메시지 바디를 직접 조회하는 기능: `@RequestBody`
 
 ---
@@ -499,9 +500,10 @@ public HelloData requestBodyJsonV5(@RequestBody HelloData data) {
 `(content type:application/json)`
 `(Accept: application/json)`
 
-`@RequestBody` 요청
+`@RequestBody` 요청<br>
 JSON 요청 -> HTTP 메시지 컨버터 ->  객체
-`@ResponseBody` 응답
+
+`@ResponseBody` 응답<br>
 객체 ->  HTTP 메시지 컨버터 -> JSON 응답
 
 
@@ -557,10 +559,10 @@ public void responseViewV3(Model model) {
 - `@ResponseBody` 가 없으면 `response/hello` 로 뷰 리졸버가 실행되어서 뷰를 찾고, 렌더링
 - `@ResponseBody` 가 있으면 뷰 리졸버를 실행하지 않고, HTTP 메시지 바디에 직접 response/hello 라는 문자가 입력
 <br>
-- Void를 반환
-`@Controller` 를 사용하고, `HttpServletResponse`, `OutputStream(Writer)` 같은 HTTP 메시지 바디를 처리하는 파라미터가 없으면 요청 URL을 참고해서 논리 뷰 이름으로 사용
-요청 URL: `/response/hello`
-실행: `templates/response/hello.html`
+- Void를 반환<br>
+`@Controller` 를 사용하고, `HttpServletResponse`, `OutputStream(Writer)` 같은 HTTP 메시지 바디를 처리하는 파라미터가 없으면 요청 URL을 참고해서 논리 뷰 이름으로 사용<br>
+요청 URL: `/response/hello`<br>
+실행: `templates/response/hello.html`<br>
 **명시성이 떨어지므로 잘 사용하지 않음**
 
 <br>
