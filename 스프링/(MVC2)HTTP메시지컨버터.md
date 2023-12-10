@@ -114,8 +114,8 @@ $\rarr$ `supportParamter()`를 내부적으로 호출해서 지원 가능 여부
 - HTTP 메시지 컨버터를 호출해서 응답 결과를 생성
 
 > - `@RequestBody` `@ResponseBody`
-`RequestResponseBodyMethodProcessor`(ArgumentResolver)사용
-- `HttpEntity`
+`RequestResponseBodyMethodProcessor`(ArgumentResolver)사용<br>
+>- `HttpEntity`
 `HttpEntityMethodProcessor`(ArgumentResolver)사용
 
 
