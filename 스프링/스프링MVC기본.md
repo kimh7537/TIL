@@ -782,6 +782,7 @@ $\rarr$ `supportParamter()`를 내부적으로 호출해서 지원 가능 여부
 ---
 #### ✨ 2. HTTP 메시지 컨버터
 ![](https://velog.velcdn.com/images/w009981/post/17f6f18b-9d7d-4322-80cb-c9ff5469ce62/image.png)
+
 **요청**
 - `@RequestBody`와 `HttpEntity` 를 처리하는 `ArgumentResolver` 가 존재
 - `ArgumentResolver` 가 HTTP 메시지 컨버터를 사용해서 필요한 객체를 생성
