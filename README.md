@@ -4,14 +4,14 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_12 TILs and counting..._
+_13 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
-- [(MVC3)로깅](스프링/(MVC3)로깅.md) - Sun Dec 10 21:36:18 2023 +0900
-- [(MVC4)스프링MVC기본](스프링/(MVC4)스프링MVC기본.md) - Sun Dec 10 21:36:18 2023 +0900
+- [(MVC1)MVC구조이해](스프링/(MVC1)MVC구조이해.md) - Sun Dec 10 22:09:53 2023 +0900
+- [(MVC5)MVC활용](스프링/(MVC5)MVC활용.md) - Sun Dec 10 21:36:18 2023 +0900
 
 ### Categories
 
@@ -33,6 +33,7 @@ _12 TILs and counting..._
 - [ch1](데이터베이스/ch1.md)
 
 ### [스프링](#스프링)
+- [(MVC1)MVC구조이해](스프링/(MVC1)MVC구조이해.md)
 - [(MVC2)HTTP메시지컨버터](스프링/(MVC2)HTTP메시지컨버터.md)
 - [(MVC3)로깅](스프링/(MVC3)로깅.md)
 - [(MVC4)스프링MVC기본](스프링/(MVC4)스프링MVC기본.md)
