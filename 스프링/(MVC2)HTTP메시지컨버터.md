@@ -22,6 +22,8 @@ HTTP 응답: `@ResponseBody` , `HttpEntity(ResponseEntity)`
 응답 ex) `@ResponseBody return byte[]` + `Accept` 
 응답 $\rarr$ 쓰기 미디어타입(Response에 content-type이렇게 작성됨)`application/octet-stream`
 
+<br><br>
+
 - `StringHttpMessageConverter` : `String` 문자로 데이터를 처리
 
 **클래스 타입: `String` , 미디어타입: `*/*`**
@@ -30,6 +32,8 @@ HTTP 응답: `@ResponseBody` , `HttpEntity(ResponseEntity)`
 
 응답 ex) `@ResponseBody return "ok"` + `Accept` 
 응답 $\rarr$ 쓰기 미디어타입 `text/plain`
+
+<br><br>
 
 - `MappingJackson2HttpMessageConverter` : `application/json`
 
