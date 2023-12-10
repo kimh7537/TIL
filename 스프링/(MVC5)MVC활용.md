@@ -143,9 +143,9 @@ public BasicItemController(ItemRepository itemRepository) {
 - `@ModelAttribute` 에 지정한 `name(value)`속성을 모델 이름으로 지정
 
 >`@ModelAttribute("hello") Item item` 이름을 hello 로 지정
-`model.addAttribute("hello", item);` 모델에 hello 이름으로 저장
+>`model.addAttribute("hello", item);` 모델에 hello 이름으로 저장
 
-- `@ModelAttribute` 의 이름을 생략하면 모델에 저장될 때 클래스명을 소문자로 변경해서 등록
+- `@ModelAttribute` 의 이름을 생략하면 모델에 저장될 때 클래스명을 소문자로 변경해서 등록<br>
 ex.) `@ModelAttribute` 클래스명 -> 모델에 자동 추가되는 이름
 `Item` -> `item`
 `HelloWorld` ->  `helloWorld`
@@ -187,7 +187,7 @@ return "redirect:/basic/items/{itemId}";
 ---
 ## ✏️ 타임리프 간단한 문법
 
-- 정적 리소스(`resources/static`에 있는 html파일)은 직접 열어도 동작함
+- 정적 리소스(`resources/static`에 있는 html파일)은 직접 열어도 동작함<br>
 ex. `http://localhost:8080/html/items.html`
 
 ### ✔️ 타임리프 간단히 알아보기
@@ -218,16 +218,16 @@ ex. `http://localhost:8080/html/items.html`
 `th:value="${item.id}"`
 - 모델에 있는 item 정보를 획득하고 프로퍼티 접근법으로 출력
 (`item.getId()`)
-- value 속성을 th:value 속성으로 변경한다.
+- value 속성을 th:value 속성으로 변경
 
 <br>
 
 **`th:action`**
-- HTML form에서 action에 값이 없으면 현재 URL에 데이터를 전송
+- HTML form에서 action에 값이 없으면 현재 URL에 데이터를 전송<br>
 ex. `<form action="item.html" th:action method="post">`
 값이 없으므로 현재 URL을 다시 사용
 
-상품 등록 폼: GET /basic/items/add
+상품 등록 폼: GET /basic/items/add<br>
 상품 등록 처리: POST /basic/items/add
 
 
@@ -237,9 +237,9 @@ ex. `<form action="item.html" th:action method="post">`
 **`@{...}`**
 1. `th:href="@{/css/bootstrap.min.css}"`
 2. `th:href="@{/basic/items/{itemId}(itemId=${item.id})}"`
-- 경로 변수(`{itemId}`) 뿐만 아니라 쿼리 파라미터도 생성가능
+- 경로 변수(`{itemId}`) 뿐만 아니라 쿼리 파라미터도 생성가능<br>
 ex.) 
-`th:href="@{/basic/items/{itemId}(itemId=${item.id}, query='test')}"`
+`th:href="@{/basic/items/{itemId}(itemId=${item.id}, query='test')}"`<br>
 생성 링크: `http://localhost:8080/basic/items/1?query=test`
 
 3  `th:href="@{|/basic/items/${item.id}|}"`
@@ -249,12 +249,12 @@ ex.)
 
 
 #### ✨ 리터럴 대체 - |...|
-`<span th:text="'Welcome to our application, ' + ${user.name} + '!'">`
+`<span th:text="'Welcome to our application, ' + ${user.name} + '!'">`<br>
 `<span th:text="|Welcome to our application, ${user.name}!|">`
 
 
-**location.href='/basic/items/add'**
-`th:onclick="'location.href=' + '\'' + @{/basic/items/add} + '\''"`
+**location.href='/basic/items/add'**<br>
+`th:onclick="'location.href=' + '\'' + @{/basic/items/add} + '\''"`<br>
 `th:onclick="|location.href='@{/basic/items/add}'|"`
   
 
@@ -278,13 +278,12 @@ ex.)
 <br>
 
 #### ✨ 기타
-`th:if` : 해당 조건이 참이면 실행
+`th:if` : 해당 조건이 참이면 실행<br>
 `${param.status}` : 타임리프에서 쿼리 파라미터를 편리하게 조회하는 기능
   
   
-> 
-- 타임리프는 순수 HTML 파일을 웹 브라우저에서 열어도 내용을 확인할 수 있고, 서버를 통해 뷰 템플릿을 거치면 동적으로 변경된 결과를 확인할 수 있음
-- 순수 HTML을 그대로 유지하면서 뷰 템플릿도 사용할 수 있는 타임리프의 특징을 **네츄럴 템플릿(natural templates)**이라 부름
+> - 타임리프는 순수 HTML 파일을 웹 브라우저에서 열어도 내용을 확인할 수 있고, 서버를 통해 뷰 템플릿을 거치면 동적으로 변경된 결과를 확인할 수 있음
+>- 순수 HTML을 그대로 유지하면서 뷰 템플릿도 사용할 수 있는 타임리프의 특징을 **네츄럴 템플릿(natural templates)**이라 부름
   
   
   
