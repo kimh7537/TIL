@@ -4,14 +4,14 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_10 TILs and counting..._
+_12 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
-- [구현](알고리즘(C++)/구현.md) - Tue Nov 21 20:34:47 2023 +0900
-- [DFS,BFS](알고리즘(C++)/DFS,BFS.md) - Mon Nov 20 22:23:03 2023 +0900
+- [(MVC3)로깅](스프링/(MVC3)로깅.md) - Sun Dec 10 21:36:18 2023 +0900
+- [(MVC4)스프링MVC기본](스프링/(MVC4)스프링MVC기본.md) - Sun Dec 10 21:36:18 2023 +0900
 
 ### Categories
 
@@ -33,9 +33,11 @@ _10 TILs and counting..._
 - [ch1](데이터베이스/ch1.md)
 
 ### [스프링](#스프링)
+- [(MVC2)HTTP메시지컨버터](스프링/(MVC2)HTTP메시지컨버터.md)
+- [(MVC3)로깅](스프링/(MVC3)로깅.md)
+- [(MVC4)스프링MVC기본](스프링/(MVC4)스프링MVC기본.md)
+- [(MVC5)MVC활용](스프링/(MVC5)MVC활용.md)
 - [JPA1(영속성,내부동작)](스프링/JPA1(영속성,내부동작).md)
-- [MVC활용](스프링/MVC활용.md)
-- [스프링MVC기본](스프링/스프링MVC기본.md)
 
 ### [알고리즘(C++)](#알고리즘(C++))
 - [DFS,BFS](알고리즘(C++)/DFS,BFS.md)
