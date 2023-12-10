@@ -209,7 +209,7 @@ ex. `http://localhost:8080/html/items.html`
 **`th:onclick`**
 - 상품 등록 폼으로 이동
 
-`onclick="location.href='addForm.html'"`
+`onclick="location.href='addForm.html'"`<br>
 `th:onclick="|location.href='@{/basic/items/add}'|"`
 
 <br>
