@@ -7,25 +7,36 @@
 ![](https://velog.velcdn.com/images/w009981/post/01b8a85f-cfe5-4943-b30a-0f0207c1e46c/image.png)
 
 **스프링 MVC가 HTTP 메시지 컨버터 적용하는 경우**
+
 HTTP 요청: `@RequestBody` , `HttpEntity(RequestEntity)` 
+
 HTTP 응답: `@ResponseBody` , `HttpEntity(ResponseEntity)` 
 
 #### ✨ 1. 메시지 컨버터 종류
 - `ByteArrayHttpMessageConverter` : `byte[]` 데이터를 처리
+
 **클래스 타입: `byte[]` , 미디어타입: `*/*`**
+
 요청 ex) `@RequestBody byte[] data` + `content-type`
+
 응답 ex) `@ResponseBody return byte[]` + `Accept` 
 응답 $\rarr$ 쓰기 미디어타입(Response에 content-type이렇게 작성됨)`application/octet-stream`
 
 - `StringHttpMessageConverter` : `String` 문자로 데이터를 처리
+
 **클래스 타입: `String` , 미디어타입: `*/*`**
+
 요청 ex) `@RequestBody String data` + `content-type`
+
 응답 ex) `@ResponseBody return "ok"` + `Accept` 
 응답 $\rarr$ 쓰기 미디어타입 `text/plain`
 
 - `MappingJackson2HttpMessageConverter` : `application/json`
+
 **클래스 타입: 객체 또는 HashMap , 미디어타입 application/json 관련**
+
 요청 ex) `@RequestBody HelloData data` + `content-type`
+
 응답 ex) `@ResponseBody return helloData` + `Accept`  
 응답 $\rarr$ 쓰기 미디어타입 `application/json` 관련
 
