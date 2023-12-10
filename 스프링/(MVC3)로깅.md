@@ -35,7 +35,7 @@ public class LogTestController {
 }
 ```
 > `@RestController`
-반환 값으로 뷰를 찾지 않음. HTTP메시지 바디에 바로 입력.(JSON)
+반환 값으로 뷰를 찾지 않음. HTTP메시지 바디에 바로 입력.(JSON)<br>
 `@Controller`
 반환 값이 String일 때, 뷰를 찾고 렌더링 됨
 
@@ -53,11 +53,11 @@ logging.level.root=info
 logging.level.hello.springmvc=debug
 ```
 
-> **올바른 로그 사용법**
-`log.debug("String concat log=" + name)`
-로그 출력 레벨을 info로 설정해도 해당 코드에 있는 `""+name`가 실행됨. 자바 언어는 문자를 먼저 더하고 메서드를 호출함
-`log.debug(debug log={}", name)`
-로그 출력 레벨을 info로 설정하면 아무일도 발생하지 않음. 
+> **올바른 로그 사용법**<br>
+`log.debug("String concat log=" + name)`<br>
+로그 출력 레벨을 info로 설정해도 해당 코드에 있는 `""+name`가 실행됨. 자바 언어는 문자를 먼저 더하고 메서드를 호출함<br>
+`log.debug(debug log={}", name)`<br>
+로그 출력 레벨을 info로 설정하면 아무일도 발생하지 않음.<br>
 연산 자체가 발생하지 않음.
 
 - 출력 모양을 조정 가능
