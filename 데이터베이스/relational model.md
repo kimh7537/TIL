@@ -1,0 +1,58 @@
+#relational model
+
+---
+## ✏️ 테이블 생성, 수정
+
+### ✔️ Relation
+![Alt text](image.png)
+
+`Relation Schema`
+- 테이블의 속성(타입)
+- `A1, A2, …, An` are attributes
+- `R = (A1, A2, …, An )` is a relation schema
+
+Example:
+`instructor = (ID, name, dept_name, salary)`
+
+
+`Instance`
+- instructor 테이블의 instance는 12개 tuple
+- A relation `instance r` defined over `schema R` is denoted by `r(R)`
+
+
+`Attributes(속성 각각을 의미)`
+- The set of allowed values for each attribute is called the `domain` of the attribute
+- instructor relation의 salary(attribute) domain은 모든 salary 값들의 집합을 의미
+- Attribute values are (normally) required to be `atomic`; that is, indivisible
+
+<br><br>
+
+
+**schema**: instructor(ID, name, dept_name, salary)<br>
+**instance**:
+![Alt text](image-1.png)
+
+---
+
+### ✔️ Key
+
+- `K Ⅽ R`
+
+- K is a `superkey` of R if values for K are sufficient to identify a unique tuple of each possible relation r(R)<br>
+Example: `{ID}` and `{ID, name}` are both superkeys of instructor.
+
+- Superkey K is a `candidate key` if K is minimal<br>
+Example: `{ID}` is a candidate key for Instructor
+
+- One of the candidate keys is selected to be the `primary key`.
+   - 최대 1개만 가질 수 있음
+
+- `Foreign key` constraint: Value in one relation must appear in another
+   - foreign key는 참조된(referenced) 테이블의 primary key일부여야 한다.
+
+---
+### ✔️ Join
+`cartesian product`
+
+(a, b)   X   (1, 2, 3)
+-> (a,1)(a,2)(a,3)  (b,1)(b,2)(b,3)  
