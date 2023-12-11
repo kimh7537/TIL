@@ -1,4 +1,4 @@
-#relational model
+#Relational_model
 
 ---
 ## ✏️ 테이블 생성, 수정
