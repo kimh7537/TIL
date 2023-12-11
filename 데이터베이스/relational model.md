@@ -2,9 +2,8 @@
 
 ---
 ## ✏️ 테이블 생성, 수정
-
+![!\[Alt text\](image.png)](image/image.png)
 ### ✔️ Relation
-![Alt text](image.png)
 
 `Relation Schema`
 - 테이블의 속성(타입)
@@ -30,7 +29,7 @@ Example:
 
 **schema**: instructor(ID, name, dept_name, salary)<br>
 **instance**:
-![Alt text](image-1.png)
+![!\[Alt text\](image-1.png)](image/image-1.png)
 
 ---
 
