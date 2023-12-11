@@ -10,8 +10,8 @@ _14 TILs and counting..._
 
 ### 2 most recent TILs
 
-- [relational model](데이터베이스/relational model.md) - Mon Dec 11 20:09:11 2023 +0900
-- [sql(1)](데이터베이스/sql(1).md) - Mon Dec 11 19:40:19 2023 +0900
+- [Relational_model](데이터베이스/Relational_model.md) - Mon Dec 11 20:13:11 2023 +0900
+- [SQL(1)](데이터베이스/sql(1).md) - Mon Dec 11 19:40:19 2023 +0900
 
 ### Categories
 
@@ -30,8 +30,8 @@ _14 TILs and counting..._
 - [String관련](JAVA/String관련.md)
 
 ### [데이터베이스](#데이터베이스)
-- [relational model](데이터베이스/relational model.md)
-- [sql(1)](데이터베이스/sql(1).md)
+- [Relational_model](데이터베이스/Relational_model.md)
+- [SQL(1)](데이터베이스/sql(1).md)
 
 ### [스프링](#스프링)
 - [(MVC1)MVC구조이해](스프링/(MVC1)MVC구조이해.md)
