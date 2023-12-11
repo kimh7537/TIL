@@ -96,7 +96,7 @@ from instructor;
 ```
 
 ### ✔️ `where`
-- `and, or, and not`
+- `and, or, not`
 - `<, <=, >, >=, =, <>(!=)`
 - `between`( a <= where <= b)
 - `row constructors` <br>
