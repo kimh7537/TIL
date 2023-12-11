@@ -10,8 +10,8 @@ _13 TILs and counting..._
 
 ### 2 most recent TILs
 
+- [sql(1)](데이터베이스/sql(1).md) - Mon Dec 11 19:40:19 2023 +0900
 - [(MVC1)MVC구조이해](스프링/(MVC1)MVC구조이해.md) - Sun Dec 10 22:09:53 2023 +0900
-- [(MVC5)MVC활용](스프링/(MVC5)MVC활용.md) - Sun Dec 10 21:36:18 2023 +0900
 
 ### Categories
 
@@ -30,7 +30,7 @@ _13 TILs and counting..._
 - [String관련](JAVA/String관련.md)
 
 ### [데이터베이스](#데이터베이스)
-- [ch1](데이터베이스/ch1.md)
+- [sql(1)](데이터베이스/sql(1).md)
 
 ### [스프링](#스프링)
 - [(MVC1)MVC구조이해](스프링/(MVC1)MVC구조이해.md)
