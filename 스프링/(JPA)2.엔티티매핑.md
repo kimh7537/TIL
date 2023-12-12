@@ -18,7 +18,9 @@
 
 ### ✔️ `@Table`
 - 엔티티와 매핑할 테이블 지정
+  
 ![!\[Alt text\](image.png)](image/image-7.png)
+
 
 ```java
 @Entity(name = "Member")
