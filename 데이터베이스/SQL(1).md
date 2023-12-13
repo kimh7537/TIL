@@ -241,3 +241,168 @@ where salary is null ;
 
 
 ---
+## ✏️ `Aggregate Functions`
+### ✔️ `example`
+- `avg`
+- `min`
+- `max`
+- `sum`
+- `count`
+
+```sql
+select avg (salary)
+from instructor
+where dept_name= 'Comp. Sci.';
+
+// 강사의 숫자를 알고싶을때(중복x)(안쓰면 multiset은 중복돼서 나옴)
+select count (distinct ID)
+from teaches
+where semester = 'Spring' and year = 2018;
+
+//course tuple전체 갯수
+select count (*)
+from course;
+```
+```sql
+//salary -> 1,2,3,null,null,null
+
+// 모든 tuple의 갯수(6개)
+select count(*)
+from instructor;
+
+// 3개
+select count(salary)
+from instructor;
+```
+**count(*)을 제외한 모든 aggregate function은 null무시**
+
+
+### ✔️ `group by`
+```sql
+select dept_name, avg (salary) as avg_salary
+from instructor
+group by dept_name;
+```
+
+![!\[Alt text\](image.png)](image/image-2.png)
+
+
+```sql
+/* erroneous query */
+select dept_name, ID, avg (salary)
+from instructor
+group by dept_name;
+```
+- group by에 없는 속성은 aggregate function에 대한 인자로만 select에 나타날 수 있음
+
+### ✔️ `having`
+```sql
+select dept_name, avg (salary) as avg_salary
+from instructor
+group by dept_name
+having avg (salary) > 42000;
+```
+- where는 from의 모든 튜플에 대해
+- having은 group by의 모든 튜플에 대한 where
+
+```sql
+select course_id, semester, year, sec_id, avg(tot_cred)
+from student, takes
+where student.ID = takes.ID and year = 2017
+group by course_id, semester, year, sec_id
+having count(ID) >= 2;
+```
+- group by뒤에 여러개 올 수 있음
+- ex. 학년(4개), 성별(2개), 도시(100개) -> 가능한 모든 그룹(800개 그룹 나옴)
+
+
+---
+## ✏️ `Nested Subquery`
+```sql
+select A1, A2, ..., An
+from r1, r2, ..., rm
+where P ;
+```
+- `From clause`: ri can be replaced by any valid subquery
+- `Where clause`: P can be replaced with an expression of the form:<br>
+`B <operation> (subquery)`<br>
+B is an attribute and <operation> to be defined later.
+- `Select clause`:
+Ai can be replaced be a subquery that generates a single value.
+
+### ✔️ `Set Membership`(where)
+```sql
+//intersect연산 결과와 같음
+select distinct course_id
+from section
+where semester = 'Fall' and year= 2017 and
+course_id in (select course_id
+            from section
+            where semester = 'Spring' and year= 2018);
+
+
+//except연산 결과와 같음
+select distinct course_id
+from section
+where semester = 'Fall' and year= 2017 and
+course_id not in (select course_id
+                from section
+                where semester = 'Spring' and year= 2018);
+
+
+select distinct name
+from instructor
+where name not in ('Mozart', 'Einstein’);
+
+
+
+select count (distinct ID)
+from takes
+where (course_id, sec_id, semester, year) in
+        (select course_id, sec_id, semester, year
+        from teaches
+        where teaches.ID= 10101);
+```
+
+### ✔️ `Set Comparison`(where)
+
+#### ✨`some`
+
+```sql
+select distinct T.name
+from instructor as T, instructor as S
+where T.salary > S.salary and S.dept name = 'Biology';
+
+==(같은 의미)
+
+select name
+from instructor
+where salary > some (select salary
+                    from instructor
+                    where dept name = 'Biology');
+// >some(이 조건보다 큰 1개만 있어도 됨)
+```
+![!\[Alt text\](image.png)](image/image-3.png)
+
+
+
+#### ✨`all`
+```sql
+select name
+from instructor
+where salary > all (select salary
+                    from instructor
+                    where dept name = 'Biology');
+// >all(뒤에 있는 모든것보다 salary가 커야함)
+```
+```sql
+//가장 높은 급여를 받는 학과는?
+select dept_name
+from instructor
+group by dept_name
+having avg(salary) >= all(select avg(salary)
+                        from instructor
+                        group by dept_name);
+```
+
+![!\[Alt text\](image.png)](image/image-4.png)
