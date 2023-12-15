@@ -407,7 +407,7 @@ having avg(salary) >= all(select avg(salary)
 
 ![!\[Alt text\](image.png)](image/image-4.png)
 
----
+
 ### ✔️ `Empty relations`(where) 
 >exists r <-> (r != Ø)   (공집합 아니면 true)(있는거 찾아줌)<br>
 >not exists r <-> (r = Ø)  (공집합이면 true)(없는거 찾아줌)
@@ -445,7 +445,7 @@ where not exists ((select course_id
 - (모든 biology course) - (같은 id를 가진course) -> (biology course 제외한것) -> not exists(만족하지 않는 것 -> biology course)
 - 불가능한(존재하지 않는, 만족하지 않는) 모든것 반환해서 사용
 
----
+
 ### ✔️ `Unique`(where) 
 ```sql
 // Find all courses that were offered at most once in 2017
