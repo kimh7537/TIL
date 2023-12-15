@@ -406,3 +406,223 @@ having avg(salary) >= all(select avg(salary)
 ```
 
 ![!\[Alt text\](image.png)](image/image-4.png)
+
+---
+### ✔️ `Empty relations`(where) 
+>exists r <-> (r != Ø)   (공집합 아니면 true)(있는거 찾아줌)<br>
+>not exists r <-> (r = Ø)  (공집합이면 true)(없는거 찾아줌)
+
+#### ✨`exists`
+```sql
+select course_id
+from section as S
+where semester = 'Fall' and year = 2017 and
+        exists (select *
+                from section as T
+                where semester = 'Spring' and year= 2018
+                and S.course_id = T.course_id);
+```
+- 가능한(존재하는) 모든것 반환해서 사용
+
+#### ✨`not exists`
+```sql
+// Find all students who have taken all courses offered in the Biology department.
+
+
+select distinct S.ID, S.name
+from student as S
+where not exists ((select course_id
+                    from course
+                    where dept_name = 'Biology')
+                   except
+                    (select T.course_id
+                    from takes as T
+                    where S.ID = T.ID));
+```
+- First nested query lists all courses offered in Biology
+- Second nested query lists all courses a particular student took
+- Note that X – Y = Ø (a,b - a,b,c) <-> X ⊆ Y
+
+
+---
+### ✔️ `Unique`(where) 
+```sql
+select T.course_id
+from course as T
+where unique (select R.course_id
+                from section as R
+                where T.course_id= R.course_id
+                and R.year = 2017);
+```
+
+---
+### ✔️ `From subquery`(from)
+```sql
+select dept_name, avg_salary
+from ( select dept_name, avg (salary) as avg_salary
+        from instructor
+        group by dept_name)
+where avg_salary > 42000;
+
+
+select dept_name, avg_salary
+from ( select dept_name, avg (salary)
+        from instructor
+        group by dept_name)
+        as dept_avg (dept_name, avg_salary)
+where avg_salary > 42000;
+```
+- Note that we do not need to use the `having clause`
+- `from`에서 새로운 릴레이션을 생성
+
+
+---
+### ✔️ `Scalar subquery`(select)
+- Scalar subquery is one which is used where a single value is expected
+- Runtime error if subquery returns more than one result tuple
+```sql
+select dept_name,
+    (select count(*)
+    from instructor
+    where department.dept_name = instructor.dept_name)
+        as num_instructors
+from department;
+// 값 1개 반환(tuple의 갯수)
+```
+---
+---
+## ✏️ `With`
+```sql
+with max_budget(value) as
+    (select max(budget)
+    from department)
+select department.name
+from department, max_budget
+where department.budget = max_budget.value;
+```
+- with (table이름) (column이름)
+- 일시적인 릴레이션(with구문이 있는 곳만 사용가능)을 만들고 싶을때 사용
+- 계속 유지하고 싶으면 `create table`해야함
+
+```sql
+with dept _total (dept_name, value) as
+    (select dept_name, sum(salary)
+    from instructor
+    group by dept_name),
+dept_total_avg(value) as
+    (select avg(value)
+    from dept_total)
+select dept_name
+from dept_total, dept_total_avg
+where dept_total.value > dept_total_avg.value;
+```
+
+---
+---
+## ✏️ `Modification`
+### ✔️ `Deletion`
+```sql
+delete from instructor ; //table삭제x, 내용만 삭제
+
+delete from instructor
+where dept_name= 'Finance’;
+
+delete from instructor
+where dept name in (select dept name
+                    from department
+                    where building = 'Watson’);
+```
+- delete는 `tuple`삭제만 가능
+- 특정 `column`삭제는 불가능
+
+```sql
+delete from instructor
+where salary < (select avg (salary)
+                from instructor); //고정된 scalar값
+```
+- 튜플을 삭제하면 평균값이 변경될 수 있음
+- 해결: 1. computing `avg(salary)`<br>
+        2. find all tuples to delete<br>
+        3. Next, delete all tuples found above (without recomputing avg or
+retesting the tuples)
+---
+### ✔️ `Insertion`
+- `delete`, `update`는 서브쿼리에 괄호 사용
+- `insert`는 괄호 사용하지 않음
+```sql
+insert into course
+values ('CS-437', 'Database Systems', 'Comp. Sci.', 4);
+
+
+insert into course(course_id, title, dept_name, credits)
+values ('CS-437', 'Database Systems', 'Comp. Sci.', 4);
+
+
+insert into student
+values ('3003', 'Green', 'Finance', null);
+```
+```sql
+insert into instructor
+    select ID, name, dept_name, 18000
+    from student
+    where dept_name = 'Music' and total_cred > 144 ;
+```
+- `insert`하기 전에 `select`먼저 실행하기
+- `select`하면서 `insert`하면 무한 삽입 오류 발생 가능
+```sql
+insert into table1 select * from table1 ;
+```
+
+---
+### ✔️ `Updates`
+```sql
+update instructor
+set salary = salary * 1.05 ;
+
+update instructor
+set salary = salary * 1.05
+where salary < 70000;
+
+
+// select에서 scalar값을 구한다음, update진행
+update instructor
+set salary = salary * 1.05
+where salary < (select avg (salary)
+                from instructor);
+```
+
+```sql
+update instructor
+    set salary = salary * 1.03
+    where salary > 100000;
+update instructor
+    set salary = salary * 1.05
+    where salary <= 100000;
+// 순서가 중요함, case문으로 변경가능
+```
+```sql
+update instructor
+set salary = case
+                when salary <= 100000 then salary * 1.05
+                else salary * 1.03
+            end ;
+```
+```sql
+update student S
+set tot_cred = (select sum(credits)
+                from takes, course
+                where takes.course_id = course.course_id and
+                S.ID= takes.ID.and
+                takes.grade <> 'F' and
+                takes.grade is not null);
+// 어떤 코스든 듣지 않은 학생은 null로 설정
+
+
+
+// select부분 변경가능
+(select) case
+            when sum(credits) is not null then sum(credits)
+            else 0
+        end
+```
+
