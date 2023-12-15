@@ -422,7 +422,7 @@ where semester = 'Fall' and year = 2017 and
                 where semester = 'Spring' and year= 2018
                 and S.course_id = T.course_id);
 ```
-- 가능한(존재하는) 모든것 반환해서 사용
+- 가능한(존재하는, 만족하는) 모든것 반환해서 사용
 
 #### ✨`not exists`
 ```sql
@@ -442,11 +442,14 @@ where not exists ((select course_id
 - First nested query lists all courses offered in Biology
 - Second nested query lists all courses a particular student took
 - Note that X – Y = Ø (a,b - a,b,c) <-> X ⊆ Y
-
+- (모든 biology course) - (같은 id를 가진course) -> (biology course 제외한것) -> not exists(만족하지 않는 것 -> biology course)
+- 불가능한(존재하지 않는, 만족하지 않는) 모든것 반환해서 사용
 
 ---
 ### ✔️ `Unique`(where) 
 ```sql
+// Find all courses that were offered at most once in 2017
+
 select T.course_id
 from course as T
 where unique (select R.course_id
@@ -454,6 +457,16 @@ where unique (select R.course_id
                 where T.course_id= R.course_id
                 and R.year = 2017);
 ```
+- 중복된 값 없으면 true
+- 2017년 적어도 두번이상 개설된 모든 과목 구하라 -> `not unique`로 변경
+```sql
+where 1 >= (select count(R.course_id)
+            from section as R
+            where T.course_id = R.course_id and 
+            R.year = 2017);
+// 이거랑 같은 의미
+```
+- `null`이 적어도 1개 이상이면 중복된 값으로 인식하지 못함(null = null -> unknown)->`unique`가 true가 될 수 있으니 조심
 
 ---
 ### ✔️ `From subquery`(from)
