@@ -4,14 +4,14 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_16 TILs and counting..._
+_17 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
+- [(JPA)3.연관관계매핑1](스프링/(JPA)3.연관관계매핑1.md) - Sun Dec 17 01:51:10 2023 +0900
 - [(JPA)0.실전예제](스프링/(JPA)0.실전예제.md) - Tue Dec 12 18:06:35 2023 +0900
-- [(JPA)1.영속성,내부동작](스프링/(JPA)1.영속성,내부동작.md) - Tue Dec 12 03:33:54 2023 +0900
 
 ### Categories
 
@@ -37,6 +37,7 @@ _16 TILs and counting..._
 - [(JPA)0.실전예제](스프링/(JPA)0.실전예제.md)
 - [(JPA)1.영속성,내부동작](스프링/(JPA)1.영속성,내부동작.md)
 - [(JPA)2.엔티티매핑](스프링/(JPA)2.엔티티매핑.md)
+- [(JPA)3.연관관계매핑1](스프링/(JPA)3.연관관계매핑1.md)
 - [(MVC1)MVC구조이해](스프링/(MVC1)MVC구조이해.md)
 - [(MVC2)HTTP메시지컨버터](스프링/(MVC2)HTTP메시지컨버터.md)
 - [(MVC3)로깅](스프링/(MVC3)로깅.md)
