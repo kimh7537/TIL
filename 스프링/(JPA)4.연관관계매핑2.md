@@ -23,8 +23,17 @@
 > - 연관관계의 주인: 외래 키를 관리하는 참조
 > - 주인의 반대편: 외래 키에 영향을 주지 않음, 단순 조회만 가능
 
+**`@JoinColumn`**
+![!\[Alt text\](image.png)](image/image-36.png)
+
+
 ---
 ## ✏️ `다대일[N:1]`
+**`@ManyToOne`**
+![!\[Alt text\](image.png)](image/image-34.png)
+- `@ManyToOne`은 `mappedBy`없음
+- 다대일을 쓰면 연관관계 주인이 되어야 한다는 뜻
+
 ### ✔️ 다대일 단방향
 ![!\[Alt text\](image.png)](image/image-23.png)
 
@@ -38,6 +47,9 @@
 
 ---
 ## ✏️ `일대다[1:N]`
+**`@OneToMany`**
+![!\[Alt text\](image-1.png)](image/image-35.png)
+
 ### ✔️ 일대다 단방향
 ![!\[Alt text\](image.png)](image/image-25.png)
 
@@ -234,3 +246,6 @@ public class MemberProduct {
     private LocalDateTime orderDateTime;
 }
 ```
+
+---
+

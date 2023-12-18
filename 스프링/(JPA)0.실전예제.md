@@ -88,4 +88,37 @@ public class Item {
 - 객체 설계를 테이블 설계에 맞춘 방식
 - 테이블의 외래키를 객체에 그대로 가져옴
 ---
-## ✏️ `2. 엔티티매핑`
+```java
+//Category
+@ManyToOne
+@JoinColumn(name = "PARENT_ID")
+private Category parent;
+
+@OneToMany(mappedBy = "parent")
+private List<Category> child = new ArrayList<>();
+
+@ManyToMany
+@JoinTable(name = "CATEGORY_ITEM",
+            joinColumns = @JoinColumn(name = "CATEGORY_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ITEM_ID")
+)
+private List<Item> items = new ArrayList<>();
+```
+```java
+//Item
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn
+public abstract class Item extends BaseEntity{
+    @Id @GeneratedValue
+    @Column(name = "ITEM_ID")
+    private Long id;
+
+    private String name;
+    private int price;
+    private int stockQuantity;
+
+    @ManyToMany(mappedBy = "items")
+    private List<Category> categories = new ArrayList<>();
+}
+```
