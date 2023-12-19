@@ -227,6 +227,7 @@ Team findTeam = em.find(Team.class, team.getId());
 List<Member> members = findTeam.getMembers(); 
 for(Member m : members){                       
     System.out.println("m.getUsername() = " + m.getUsername());
+    //m.getUsername() = member1
 }
 ```
 데이터베이스에서 `Team`, `Member`객체 들고옴
