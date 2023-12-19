@@ -350,7 +350,102 @@ em.persist(memberE);
 > 참고: 값 타입 컬렉션은 영속성 전이(Cascade) + 고아 객체 제거 기능을 필수로 가진다고 볼 수 있음
 
 #### ✨ 값타입 조회
+```java
+...위에서 이어짐
+em.flush();
+em.clear();
 
+MemberE findMemberE = em.find(MemberE.class, memberE.getId());
+//member만 select로 가져옴, 나머지 컬렉션 2개는 지연로딩
+            
+List<Address> addressHistory = findMemberE.getAddressHistory();  //여기서 쿼리로 들고옴
+for(Address address : addressHistory){
+    System.out.println("address.getCity() = " + address.getCity());
+}
+Set<String> favoriteFoods = findMemberE.getFavoriteFoods(); //여기서 쿼리로 들고옴
+for(String favoriteFood : favoriteFoods){
+    System.out.println("favoriteFood = " + favoriteFood);
+}
+```
 - 값 타입 컬렉션도 지연 로딩 전략 사용
 
 #### ✨ 값타입 수정
+- 컬렉션의 값만 변경해도 자동으로 데이터베이스에 변경된 내용 쿼리로 날려줌
+
+```java
+MemberE findMemberE = em.find(MemberE.class, memberE.getId());
+// findMemberE.getHomeAddress().setCity("newCity"); //이거 사용하면 안됨, 값타입은 불변해야함
+
+//이거 사용해서 완전히 교체해야함
+Address a = findMemberE.getHomeAddress();
+findMemberE.setHomeAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
+
+
+//===========
+//컬렉션 값 타입 변경하기
+//String을 완전히 교체하기
+findMemberE.getFavoriteFoods().remove("치킨");
+findMemberE.getFavoriteFoods().add("한식");
+
+//Address
+findMemberE.getAddressHistory().remove(new Address("old1", "street", "10000"));
+findMemberE.getAddressHistory().add(new Address("newCity1", "street", "10000"));
+```
+ - `remove`는 기본적으로 `equals`로 찾고 제거함
+ - 오버라이딩 똑바로 안하면 오류발생
+ - `Address`부분 보면 `ADDRESS`테이블에서 `old1`을 제거할때 테이블 내용을 모두 지우는 `delete`쿼리가 날아감, 이후 `old2`, `newCity1`을 삽입하는 `insert`쿼리가 날아감
+---
+ **값 타입 컬렉션의 제약사항**
+- 값 타입은 엔티티와 다르게 식별자(ex. ID) 개념이 없음
+- 따라서 값을 변경하면 추적이 어려움
+- `값 타입 컬렉션에 변경 사항이 발생하면, 주인 엔티티와 연관된 모든 데이터를 삭제하고, 값 타입 컬렉션에 있는 현재 값을 모두 다시 저장한다`
+   - ex. 바로 위 코드에서 ADDRESS테이블에서 `MEBER_ID`와 관련된 모든 데이터(old1)을 삭제함
+   - 사용을 지양하는것이 좋음
+- 값 타입 컬렉션을 매핑하는 테이블은 모든 컬럼을 묶어서 기본키를 구성해야 함: null 입력X, 중복 저장X
+    - 모든 칼럼이 PK가 됨
+
+
+**값 타입 컬렉션 대안**
+- 실무에서는 상황에 따라 값 타입 컬렉션 대신에 `일대다 `관계를 고려해보기
+```java
+@Entity
+@Table(name = "ADDRESS")
+public class AddressEntity {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private Address address;
+    ...
+}
+```
+```java
+//memberE
+//@ElementCollection이거 대신 사용
+
+@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+@JoinColumn(name = "MEMBER_ID")
+private List<AddressEntity> addressHistory = new ArrayList<>();
+```
+```java
+
+```
+- 일대다 관계를 위한 엔티티를 만들고, 여기에서 값 타입을 사용
+- 영속성 전이(Cascade) + 고아 객체 제거를 사용해서 값 타입 컬렉션 처럼 사용
+- EX) AddressEntity
+
+
+**정리**
+- 엔티티 타입의 특징
+- 식별자O
+- 생명 주기 관리
+- 공유
+- 값 타입의 특징
+- 식별자X
+- 생명 주기를 엔티티에 의존
+- 공유하지 않는 것이 안전(복사해서 사용)
+- 불변 객체로 만드는 것이 안전
+
+값 타입은 정말 값 타입이라 판단될 때만 사용
+엔티티와 값 타입을 혼동해서 엔티티를 값 타입으로 만들면 안됨
+식별자가 필요하고, 지속해서 값을 추적, 변경해야 한다면 그것
+은 값 타입이 아닌 엔티티
