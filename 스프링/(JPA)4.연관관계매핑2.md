@@ -70,7 +70,7 @@ team.getMembers().add(member);
 em.persist(team);
 ```
 - `team.getMembers().add(member);`:    
-   - `UPDATE`쿼리(member)가 날아감
+   - persist할때 `UPDATE`쿼리(member)가 날아감
    - team에 값을 업데이트했지만 member값 추가되었으므로 member도 업데이트
    - 모르는 사람이 개발할때 왜 다른 부분에서 쿼리가 발생하는지 헷갈림 -> `OneToMany`사용 지양하기
 
