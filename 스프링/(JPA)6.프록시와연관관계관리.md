@@ -25,6 +25,11 @@ System.out.println("team = " + team.getName());
 
 ---
 ### ✔️ 프록시 객체 초기화
+![!\[Alt text\](image.png)](image/image-46.png)
+> 최초 지연 로딩 시점에는 당연히 참조 값이 없음
+
+
+<br><br>
 
 ![Alt text](image/image-45.png)
 
