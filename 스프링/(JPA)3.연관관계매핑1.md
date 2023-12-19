@@ -229,7 +229,9 @@ for(Member m : members){
     System.out.println("m.getUsername() = " + m.getUsername());
 }
 ```
-- `team.getMembers().add(member)`코드가 없어도 JPA에서 `Team`과 `Team`의 `members`에 해당하는 값에 대한 쿼리를 날려서 값 들고옴 <br>
+데이터베이스에서 `Team`, `Member`객체 들고옴
+- `team.getMembers().add(member)`코드가 없어도 JPA에서 `Team`과 `Team의 members`에 해당하는 값에 대한 쿼리를 날려서 값 들고옴 <br>
+-> 이미 DB에 데이터 저장했기 때문에 가능<br>
 -> `findTeam.getMembers()`해도 원하는 값 얻을 수 있음
 - 그러나 오류가 발생할 수 있음
 ```java
@@ -245,7 +247,7 @@ Team findTeam = em.find(Team.class, team.getId());
 List<Member> members = findTeam.getMembers(); 
 ...위 코드와 같음
 ```
-- 이 상태라면 `Team`객체를 1차캐시에서 바로 가져오기 때문에 제대로 값이 나오지 않음(DB에서 꺼내면 알 수 있음)
+- 이 상태라면 `Team`객체를 1차캐시에서 바로 가져오기 때문에 제대로 값(Member)이 나오지 않음(DB에서 꺼내면 알 수 있음)
 - 따라서 양방향 연관관계에서 순수 객체 상태를 고려해 항상 `양쪽에 값을 설정`하자
 - `연관관계 편의 메서드 생성해도 됨`
 
