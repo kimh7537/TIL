@@ -351,7 +351,7 @@ em.persist(parent); //3번 persist됨
 
 **종류**
 > **ALL: 모두 적용**<br>
-> **ERSIST: 영속**<br>
+> **PERSIST: 영속**<br>
 > REMOVE: 삭제<br>
 > MERGE: 병합<br>
 > REFRESH: REFRESH<br>
