@@ -391,7 +391,7 @@ findMemberE.getFavoriteFoods().add("한식");
 findMemberE.getAddressHistory().remove(new Address("old1", "street", "10000"));
 findMemberE.getAddressHistory().add(new Address("newCity1", "street", "10000"));
 ```
- - `remove`는 기본적으로 `equals`로 찾고 제거함
+ - `Address`부분 보기: `remove`는 기본적으로 `equals`로 찾고 제거함
  - 오버라이딩 똑바로 안하면 오류발생
  - `Address`부분 보면 `ADDRESS`테이블에서 `old1`을 제거할때 테이블 내용을 모두 지우는 `delete`쿼리가 날아감, 이후 `old2`, `newCity1`을 삽입하는 `insert`쿼리가 날아감
 ---
@@ -399,7 +399,7 @@ findMemberE.getAddressHistory().add(new Address("newCity1", "street", "10000"));
 - 값 타입은 엔티티와 다르게 식별자(ex. ID) 개념이 없음
 - 따라서 값을 변경하면 추적이 어려움
 - `값 타입 컬렉션에 변경 사항이 발생하면, 주인 엔티티와 연관된 모든 데이터를 삭제하고, 값 타입 컬렉션에 있는 현재 값을 모두 다시 저장한다`
-   - ex. 바로 위 코드에서 ADDRESS테이블에서 `MEBER_ID`와 관련된 모든 데이터(old1)을 삭제함
+   - ex. 바로 위 코드에서 ADDRESS테이블에서 `MEBER_ID`와 관련된 모든 데이터(old1..)을 삭제함
    - 사용을 지양하는것이 좋음
 - 값 타입 컬렉션을 매핑하는 테이블은 모든 컬럼을 묶어서 기본키를 구성해야 함: null 입력X, 중복 저장X
     - 모든 칼럼이 PK가 됨
@@ -415,6 +415,10 @@ public class AddressEntity {
     @GeneratedValue
     private Long id;
     private Address address;
+
+    public AddressEntity(String city, String street, String zipcode){
+        this.address = new Address(city, street, zipcode);
+    }
     ...
 }
 ```
@@ -427,24 +431,32 @@ public class AddressEntity {
 private List<AddressEntity> addressHistory = new ArrayList<>();
 ```
 ```java
-
+...
+memberE.getAddressEntity().add(new AddressEntity("old1", "street", "10000"));
+memberE.getAddressEntity().add(new AddressEntity("old2", "street", "10000"));
+...
 ```
 - 일대다 관계를 위한 엔티티를 만들고, 여기에서 값 타입을 사용
 - 영속성 전이(Cascade) + 고아 객체 제거를 사용해서 값 타입 컬렉션 처럼 사용
-- EX) AddressEntity
+
+- 값타입 컬렉션은 언제사용할까?: 단순한거에 사용<br>
+ex. 좋아하는 메뉴 선택 치킨[]/피자[]..등 체크박스<br>
+추적할 필요없고, 값이 변경되어도 UPDATE할 필요 없을때
 
 
-**정리**
-- 엔티티 타입의 특징
-- 식별자O
+**정리**<br><br>
+**엔티티 타입의 특징**
+- 식별자 존재함
 - 생명 주기 관리
-- 공유
-- 값 타입의 특징
-- 식별자X
+- 공유가능
+<br><br>
+
+**값 타입의 특징**
+- 식별자 없음
 - 생명 주기를 엔티티에 의존
 - 공유하지 않는 것이 안전(복사해서 사용)
 - 불변 객체로 만드는 것이 안전
-
-- 값 타입은 정말 값 타입이라 판단될 때만 사용
+<br>
+<br>
 - 엔티티와 값 타입을 혼동해서 엔티티를 값 타입으로 만들면 안됨
-- 식별자가 필요하고, 지속해서 값을 추적, 변경해야 한다면 그것은 값 타입이 아닌 엔티티
+- 식별자가 필요하고, 지속해서 값을 추적, 변경해야 한다면 그것은 값 타입이 아닌 엔티티임
