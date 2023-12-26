@@ -244,3 +244,253 @@ public class MemberDTO {
 
 ---
 ### ✔️ `페이징`
+- `setFirstResult(int startPosition)` : 조회 시작 위치
+(0부터 시작)
+- `setMaxResults(int maxResult)` : 조회할 데이터 수
+
+```java
+for(int i=0 ; i < 100 ; i++){
+    Member member = new Member();
+    member.setUsername("member" + i);
+    member.setAge(i);
+    em.persist(member);
+}
+
+em.flush();
+em.clear();
+
+List<Member> result = em.createQuery("select m from Member m order by m.age desc", Member.class)
+    .setFirstResult(1) 
+//0이 아니라 1이라서 두 번째 값 들고 나옴, age=99아니고, 98이 나옴
+    .setMaxResults(10)
+    .getResultList();
+System.out.println("result.size() = " + result.size()); //10개
+
+for(Member member1 : result){
+    System.out.println("member1 = " + member1); // member=98~89
+}
+```
+
+- `MySQL`, `ORACLE`등 언어마다 방언이 다름
+
+---
+### ✔️ `조인`
+- 내부 조인:<br>
+`SELECT m FROM Member m [INNER] JOIN m.team t`
+- 외부 조인:<br>
+`SELECT m FROM Member m LEFT [OUTER] JOIN m.team t`
+- 세타 조인:<br>
+`select count(m) from Member m, Team t where m.username
+= t.name`
+
+```java
+Team team = new Team();
+team.setName("teamA");
+em.persist(team);
+
+Member member = new Member();
+member.setUsername("member1");
+member.setAge(10);
+member.setTeam(team);
+em.persist(member);
+
+em.flush();
+em.clear();
+
+//내부 조인
+String query = "select m from Member m inner join m.team t";
+List<Member> result = em.createQuery(query, Member.class)
+        .getResultList();
+// Lazy로 설정안하면 SQL쿼리 2개 나감 
+// jpql하나랑 team찾는 select쿼리, LAZY로 변경해서 사용하기
+
+
+//세타 조인
+String query = "select m from Member m, Team t where m.username = t.name";
+List<Member> result = em.createQuery(query, Member.class)
+        .getResultList();
+```
+
+**조인 - ON절**
+1. 조인 대상 필터링
+- 회원과 팀을 조인하면서, 팀 이름이 A인 팀만 조인
+```java
+String query = "select m from Member m left join m.team t on t.name = 'teamA'";
+List<Member> result = em.createQuery(query, Member.class)
+        .getResultList();
+```
+
+2. 연관관계 없는 엔티티 외부 조인
+- 회원의 이름과 팀의 이름이 같은 대상 외부 조인
+- `m.team`이런식으로 사용x
+```java
+String query = "select m from Member m left join Team t on m.username = t.name";
+List<Member> result = em.createQuery(query, Member.class)
+        .getResultList();
+```
+
+---
+### ✔️ `서브쿼리`
+
+- `[NOT]EXISTS` (subquery): 서브쿼리에 결과가 존재하면 참
+- `{ALL | ANY | SOME}` (subquery)
+    - `ALL` 모두 만족하면 참
+    - `ANY, SOME`: 같은 의미, 조건을 하나라도 만족하면 참
+- `[NOT] IN` (subquery): 서브쿼리의 결과 중 하나라도 같은 것이 있으면 참
+
+
+**서브쿼리 예제**
+```java
+//나이가 평균보다 많은 회원
+select m from Member m
+where m.age > (select avg(m2.age) from Member m2)
+//한 건이라도 주문한 고객
+select m from Member m
+where (select count(o) from Order o where m = o.member) > 0
+//팀A 소속인 회원
+select m from Member m
+where exists (select t from m.team t where t.name = '팀A')
+//전체 상품 각각의 재고보다 주문량이 많은 주문들
+select o from Order o
+where o.orderAmount > ALL (select p.stockAmount from Product p)
+//어떤 팀이든 팀에 소속된 회원
+select m from Member m
+where m.team = ANY (select t from Team t)
+```
+
+**서브 쿼리 한계**
+- **JPA는 WHERE, HAVING 절에서만 서브 쿼리 사용 가능**
+- `SELECT` 절도 가능(하이버네이트에서 지원)
+- `FROM` 절의 서브 쿼리는 현재 JPQL에서 불가능
+     - 조인으로 풀 수 있으면 풀어서 해결
+```java
+String query = "select (select avg(m1.age) From Member m1) as avgAge from Member m join Team t on m.username = t.name";
+//하이버네이트에서 가능
+```
+
+---
+### ✔️ `타입 표현`
+- 문자: `‘HELLO’, ‘She’’s’`
+- 숫자: `10L(Long), 10D(Double), 10F(Float)`
+- Boolean: `TRUE, FALSE`
+- ENUM: `jpabook.MemberType.Admin` (패키지명 포함)
+- 엔티티 타입: `TYPE(m) = Member` (상속 관계에서 사용)
+
+```java
+//1
+String query = "select m.username, 'HELLO', TRUE From Member m" +
+        "where m.type = jpql.MemberType.ADMIN";
+List<Object[]> result = em.createQuery(query)
+        .getResultList();
+
+for(Object[] objects : result){
+    System.out.println("objects[0] = " + objects[0]);
+    System.out.println("objects[1] = " + objects[1]); //HELLO
+    System.out.println("objects[2] = " + objects[2]); //true
+}
+//2
+String query = "select m.username, 'HELLO', TRUE From Member m" +
+        "where m.type = :userType";
+List<Object[]> result = em.createQuery(query)
+        .setParameter("userType", MemberType.ADMIN)
+        .getResultList();
+
+//3
+//상속관계 Item -> Book, Movie, Album 
+//DiscriminatorColumn 값 이용
+em.createQuery("select i from Item i where type(i) = Book ", AbstractReadWriteAccess.Item.class);
+```
+
+**SQL과 문법이 같은 식**
+- EXISTS, IN
+- AND, OR, NOT
+- =, >, >=, <, <=, <>
+- BETWEEN, LIKE, IS NULL
+```java
+String query = "select m.username, 'HELLO', TRUE From Member m" +
+        "where m.age between 0 and 10";
+```
+
+---
+### ✔️ `조건식`
+- 기본 CASE식
+```java
+String query =
+        "select" +
+            "case when m.age <= 10 then '학생요금' "+
+            "     when m.age >= 60 then '경로요금' "+
+            "     else '일반요금' " +
+            " end " +
+        "from Member m";
+List<String> result = em.createQuery(query, String.class)
+        .getResultList();
+```
+- 단순 CASE 식
+```java
+select
+    case t.name
+        when '팀A' then '인센티브110%'
+        when '팀B' then '인센티브120%'
+        else '인센티브105%'
+    end
+from Team t
+```
+
+- `COALESCE`: 하나씩 조회해서 null이 아니면 반환
+- `NULLIF`: 두 값이 같으면 null 반환, 다르면 첫번째 값 반환
+
+```java
+String query = "select coalesce(m.username, '이름 없는 회원') from Member m "; 
+//username이 null이면 이름 없는 회원 반환
+//있으면 그대로 나옴
+
+String query = "select nullif(m.username, '관리자') from Member m "; 
+//사용자 이름이 관리자면 null반환, 관리자의 이름을 숨겨야할 때 사용
+//나머지는 본인의 이름을 반환
+```
+
+
+
+---
+### ✔️ `JPQL 함수`
+1. JPQL기본 함수
+- CONCAT
+- SUBSTRING
+- TRIM
+- LOWER, UPPER
+- LENGTH
+- LOCATE
+- ABS, SQRT, MOD
+- SIZE, INDEX(JPA 용도)
+```java
+String query = "select concat('a', 'b') From Member m"; 
+//select 'a' || 'b'로 사용가능(하이버네이트)
+
+String query = "select substring(m.username, 2, 3) From Member m";
+
+String query = "select locate('de', 'abcdefg') From Member m"; //숫자 4(위치)(Integer)
+List<Integer> result = em.createQuery(query, Integer.class).getResultList();
+
+String query = "select size(t.members) From Team t"; 
+//컬렉션의 크기를 알려줌
+//index는 값타입 컬렉션 위치값구할때 사용, 안쓰는게 좋음
+```
+
+2. 사용자 정의 함수
+- 하이버네이트는 사용전 방언에 추가해야 함
+- 사용하는 DB 방언을 상속받고, 사용자 정의 함수를 등록함
+```java
+String query = "select function('group_concat', m.username) From Member m"; //persistence에서 MyH2Dialect로 설정해주기
+List<String> result = em.createQuery(query, String.class).getResultList();
+//데이터를 한줄로 뽑아서 알려줌
+//관리자1,관리자2 -> 이런느낌
+//select group_concat(m.username) From Member m -> 하이버네이트
+```
+```java
+public class MyH2Dialect extends H2Dialect {
+
+    public MyH2Dialect(){
+        registerFunction("group_concat", new StandardSQLFunction("group_concat", StandardBasicTypes.STRING));
+    }
+}
+```
