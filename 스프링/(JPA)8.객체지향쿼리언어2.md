@@ -270,7 +270,7 @@ INNER JOIN MEMBER M ON T.ID=M.TEAM_ID
 - 엔티티에 직접 적용하는 글로벌 로딩 전략보다 우선함
    - `@OneToMany(fetch = FetchType.LAZY) //글로벌 로딩 전략`
 
-
+- result는 팀A, 팀B로 결과 2개
 **컬렉션 페이징 대안** 
 ```java
 String query = "select t From Team t";

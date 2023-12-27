@@ -406,6 +406,8 @@ findMemberE.getAddressHistory().add(new Address("newCity1", "street", "10000"));
 
 
 **값 타입 컬렉션 대안**
+![Alt text](image/image-60.png)
+
 - 실무에서는 상황에 따라 값 타입 컬렉션 대신에 `일대다 `관계를 고려해보기
 ```java
 @Entity
