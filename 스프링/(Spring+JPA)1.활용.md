@@ -1,4 +1,4 @@
-#(Spring)1.활용
+#(Spring+JPA)1.활용
 
 ---
 **Order**
