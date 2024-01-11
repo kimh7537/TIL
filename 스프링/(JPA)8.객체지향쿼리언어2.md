@@ -490,3 +490,13 @@ member3.getAge();//3도 마찬가지
 - 영속성컨텍스트는 벌크 업데이트가 반영이 안되어 있음
 - 따라서 영속성 컨텍스트 초기화 해주면 좋음
 - 벌크 코드 바로 뒤에 `em.clear()`해서 영속성 컨텍스트 초기화해줌
+
+---
+---
+---
+- 자기 자신을 가져올때, 예를 들어 `select m from Member m`과 같은 경우는 연관된 엔티티도 함께 들고오는 듯
+- (1) JPQL 이너조인해서 1개, (2) 연관된 엔티티 Team과 관련된 SQL 1개
+- Lazy라면 따로 나중에 들고오고, fetch join이면 select에 한 번에 들고오는 듯
+- `em.find(Member.class, memberId)`도 두 개 들고옴
+---
+- `select m.team from Member m..`과 같은 경우는 그대로 JPQL 들고 오는 듯? SQL 1개
