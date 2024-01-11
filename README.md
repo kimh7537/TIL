@@ -4,7 +4,7 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_25 TILs and counting..._
+_26 TILs and counting..._
 
 ---
 
@@ -51,6 +51,7 @@ _25 TILs and counting..._
 - [(MVC4)스프링MVC기본](스프링/(MVC4)스프링MVC기본.md)
 - [(MVC5)MVC활용](스프링/(MVC5)MVC활용.md)
 - [(Spring+JPA)1.활용](스프링/(Spring+JPA)1.활용.md)
+- [(Spring+JPA)2.활용](스프링/(Spring+JPA)2.활용.md)
 
 ### [알고리즘(C++)](#알고리즘(C++))
 - [DFS,BFS](알고리즘(C++)/DFS,BFS.md)
