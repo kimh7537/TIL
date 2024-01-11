@@ -4,14 +4,14 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_27 TILs and counting..._
+_28 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
+- [(Spring+JPA)2.활용(3)](스프링/(Spring+JPA)2.활용(3).md) - Thu Jan 11 22:29:32 2024 +0900
 - [(Spring+JPA)2.활용(2)](스프링/(Spring+JPA)2.활용(2).md) - Thu Jan 11 20:19:18 2024 +0900
-- [(Spring+JPA)2.활용(1)](스프링/(Spring+JPA)2.활용(1).md) - Thu Jan 11 20:19:18 2024 +0900
 
 ### Categories
 
@@ -53,6 +53,7 @@ _27 TILs and counting..._
 - [(Spring+JPA)1.활용](스프링/(Spring+JPA)1.활용.md)
 - [(Spring+JPA)2.활용(1)](스프링/(Spring+JPA)2.활용(1).md)
 - [(Spring+JPA)2.활용(2)](스프링/(Spring+JPA)2.활용(2).md)
+- [(Spring+JPA)2.활용(3)](스프링/(Spring+JPA)2.활용(3).md)
 
 ### [알고리즘(C++)](#알고리즘(C++))
 - [DFS,BFS](알고리즘(C++)/DFS,BFS.md)
