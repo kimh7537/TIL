@@ -104,6 +104,7 @@ System.out.println("findTeam.getName() = " + findTeam.getName());
 ```
 - `member`를 DB에서 찾을 때, `Member`객체가 `Team`을 가지고 있으므로 `join` 사용한 `SELECT`쿼리가 DB로 들어감
 - (member, team 2개 들고옴)(LAZY라면 쿼리 분리하기)
+- ```select m from member m join team where ...```이런식으로 쿼리가 나가게됨(정확하지는 않고 대략 이런느낌)
 
 **연관관계 수정**
 ```java
