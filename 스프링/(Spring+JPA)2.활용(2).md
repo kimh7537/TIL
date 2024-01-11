@@ -247,6 +247,7 @@ public List<Order> findAllWithMemberDelivery1() {
 
 ---
 ### ✔️ `V4: JPA에서 DTO로 바로 조회`
+- v3보다 v4가 SELECT에서 들고오는 값이 더 적음(직접 선택함) 
 ```java
 @GetMapping("/api/v4/simple-orders")  //select에서 내가 원하는 것만 들고옴, v3랑 차이점, sql 쿼리 1개라는 공통점
 public List<OrderSimpleQueryDto> ordersV4(){
