@@ -653,10 +653,92 @@ public class OrderQueryDto {...` 이렇게 작성해야 중복이 사라지고, 
 ---
 ---
 ## ✏️ `API 개발 고급 3. 실무 최적화`
-### ✔️ `Test`
+### ✔️ `OSIV와 성능 최적화`
+**OSIV ON**
 
+![Alt text](image/image-68.png)
+
+`spring.jpa.open-in-view` : true 기본값
+
+- 애플리케이션 시작 시점에 warn 로그를 남김
+- OSIV 전략은 트랜잭션 시작처럼 최초 데이터베이스 커넥션 시작 시점부터 API 응답이 끝날 때 까지 `영속성 컨텍스트`와 `데이터베이스 커넥션`을 유지
+- 그래서 지금까지 View Template이나 API 컨트롤러에서 지연 로딩이 가능했음
+- 지연 로딩은 `영속성 컨텍스트`가 살아있어야 가능하고, 영속성 컨텍스트는 기본적으로 `데이터베이스 커넥션`을 유지
+
+**단점**
+- 너무 오랜시간동안 데이터베이스 커넥션 리소스를 사용하기 때문에, 실시간 트래픽이 중요한 애플리케이션에서는 커넥션이 모자랄 수 있음
+- 장애 발생 가능성 높아짐
+- ex. 컨트롤러에서 외부 API를 호출하면 외부 API 대기 시간 만큼 커넥션 리소스를 반환하지 못하고, 유지해야함
+
+
+**OSIV OFF**
+
+![Alt text](image/image-69.png)
+
+`spring.jpa.open-in-view: false` OSIV 종료
+
+- OSIV를 끄면 트랜잭션을 종료할 때 `영속성 컨텍스트`를 닫고, `데이터베이스 커넥션`도 반환함
+- 커넥션 리소스를 낭비하지 않음
+
+**단점**
+- 모든 지연로딩을 트랜잭션 안에서 처리해야 함
+- view template에서 지연로딩이 동작하지 않음
+- 결론적으로 트랜잭션이 끝나기 전에 지연 로딩을 강제로 호출해야함
+
+```java
+@GetMapping("/api/v1/orders")
+public List<Order> ordersV1(){
+    List<Order> all = orderRepository.findAllByString(new OrderSearch());
+    for (Order order : all) {
+        order.getMember().getName(); 
+        //getName()은 프록시 상태에서 호출됨, 초기화 해야함
+        //컨트롤러에 영속성 컨텍스트 범위가 작동안함
+        //예외 발생
+        ...
+    }
+    ...
+}
+```
 
 ---
- 
+### ✔️ `커맨드와 쿼리 분리`
 
+- 실무에서 **OSIV를 끈 상태**로 복잡성을 관리하는 좋은 방법은 Command와 Query를 분리하는 것
+- 보통 비즈니스 로직은 특정 엔티티 몇 개를 등록하거나 수정하는 것이므로 성능이 크게 문제가 되지 않음
+- 복잡한 화면을 출력하기 위한 쿼리는 화면에 맞추어 성능을 최적화 하는 것이 중요함. 그러나 그 복잡성에 비해 핵심 비즈니스에 큰 영향을 주는 것은 아님
+- 따라서 크고 복잡한 애플리케이션을 개발한다면, 이 둘의 관심사를 명확하게 분리하는 것은 좋은 방법
+
+`OrderService`
+- `OrderService`: 핵심 비즈니스 로직
+- `OrderQueryService`: 화면이나 API에 맞춘 서비스 (주로 읽기 전용 트랜잭션 사용)
+- 보통 서비스 계층에서 트랜잭션을 유지함
+```java
+//OrderApiController
+@GetMapping("/api/v3/orders")
+public List<OrderDto> ordersV3(){
+    return orderQueryService.ordersV3();
+}
+
+//OrderQueryService
+@Service
+@Transactional(readOnly = true)  //읽기 전용
+@RequiredArgsConstructor
+public class OrderQueryService {
+
+    private final OrderRepository orderRepository;
+
+    public List<OrderDto> ordersV3(){
+        List<Order> orders = orderRepository.findAllWithItem();
+
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(toList());
+        return result;
+    }
+
+//OrderDto, OrderItemDto 여기로 옮기거나 새로 만들기
+}
+```
+
+> 예시: 고객 서비스의 실시간 API는 OSIV를 끄고, ADMIN 처럼 커넥션을 많이 사용하지 않는 곳에서는 OSIV를 킴
 
