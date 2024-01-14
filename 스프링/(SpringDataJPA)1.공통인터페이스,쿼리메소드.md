@@ -1,4 +1,4 @@
-#(SpringDataJPA)1.인터페이스
+#(SpringDataJPA)1.공통인터페이스,쿼리메소드
 
 ---
 ---
@@ -21,3 +21,11 @@
 
 //7
 - `Optional` 값이 있는지 없는지 모를때 사용 권장
+
+
+
+
+//11
+`List<Member> findTop3ByAge(age)`; 페이징 안넘길때, 단순 3건만 조회할때
+
+
