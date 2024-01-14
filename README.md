@@ -4,14 +4,14 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_29 TILs and counting..._
+_31 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
-- [(SpringDataJPA)1.인터페이스](스프링/(SpringDataJPA)1.인터페이스.md) - Fri Jan 12 23:02:32 2024 +0900
-- [(Spring+JPA)2.활용(3)](스프링/(Spring+JPA)2.활용(3).md) - Thu Jan 11 22:29:32 2024 +0900
+- [(SpringDataJPA)2.확장,분석](스프링/(SpringDataJPA)2.확장,분석.md) - Mon Jan 15 03:07:31 2024 +0900
+- [(SpringDataJPA)1.공통인터페이스,쿼리메소드](스프링/(SpringDataJPA)1.공통인터페이스,쿼리메소드.md) - Mon Jan 15 03:07:31 2024 +0900
 
 ### Categories
 
@@ -50,11 +50,13 @@ _29 TILs and counting..._
 - [(MVC3)로깅](스프링/(MVC3)로깅.md)
 - [(MVC4)스프링MVC기본](스프링/(MVC4)스프링MVC기본.md)
 - [(MVC5)MVC활용](스프링/(MVC5)MVC활용.md)
+- [(QueryDsl)1.기본문법](스프링/(QueryDsl)1.기본문법.md)
 - [(Spring+JPA)1.활용](스프링/(Spring+JPA)1.활용.md)
 - [(Spring+JPA)2.활용(1)](스프링/(Spring+JPA)2.활용(1).md)
 - [(Spring+JPA)2.활용(2)](스프링/(Spring+JPA)2.활용(2).md)
 - [(Spring+JPA)2.활용(3)](스프링/(Spring+JPA)2.활용(3).md)
-- [(SpringDataJPA)1.인터페이스](스프링/(SpringDataJPA)1.인터페이스.md)
+- [(SpringDataJPA)1.공통인터페이스,쿼리메소드](스프링/(SpringDataJPA)1.공통인터페이스,쿼리메소드.md)
+- [(SpringDataJPA)2.확장,분석](스프링/(SpringDataJPA)2.확장,분석.md)
 
 ### [알고리즘(C++)](#알고리즘(C++))
 - [DFS,BFS](알고리즘(C++)/DFS,BFS.md)
