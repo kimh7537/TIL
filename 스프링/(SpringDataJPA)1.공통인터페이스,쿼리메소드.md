@@ -289,26 +289,464 @@ class MemberRepositoryTest {
 ---
 ---
 ## ✏️ `쿼리 메서드 기능`
-### ✔️ `V1: 엔티티 직접 노출`
+
+**1. 메소드 이름으로 쿼리 생성**
+
+**2. 메소드 이름으로 `JPA NamedQuery` 호출**
+
+**3. `@Query` 어노테이션을 사용해서 리포지토리 인터페이스에 쿼리 직접 정의**
+
+
+### ✔️ `1. 메소드 이름으로 쿼리 생성`
+**순수 JPA 리포지토리, 테스트 코드**
+```java
+//MemberJpaRepository
+public List<Member> findByUsernameAndAgeGreaterThen(String username, int age){
+    return em.createQuery("select m from Member m where m.username = :username and m.age > :age")
+            .setParameter("username", username)
+            .setParameter("age", age)
+            .getResultList();
+}
+//MemberJpaRepositoryTest
+@Test
+public void findByUsernameAndAgeGreaterThen(){
+    Member m1 = new Member("AAA", 10);
+    Member m2 = new Member("AAA", 20);
+    memberJpaRepository.save(m1);
+    memberJpaRepository.save(m2);
+
+    List<Member> result = memberJpaRepository.findByUsernameAndAgeGreaterThen("AAA", 15);
+
+    assertThat(result.get(0).getUsername()).isEqualTo("AAA");
+    assertThat(result.get(0).getAge()).isEqualTo(20);
+    assertThat(result.size()).isEqualTo(1);
+}
+```
+
+**스프링 데이터 JPA**
+```java
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    List<Member> findByUsernameAndAgeGreaterThan(String username, int age);
+}
+```
+**스프링 데이터 JPA가 제공하는 쿼리 메소드 기능**
+- 조회: `find…By, read…By ,query…By, get…By`
+   - findHelloBy 처럼 ...에 식별하기 위한 내용(설명)이 들어가도 됨
+- COUNT: `count…By` 반환타입 `long`
+- EXISTS: `exists…By` 반환타입 `boolean`
+- 삭제: `delete…By`, `remove…By` 반환타입 `long`
+- DISTINCT: `findDistinct`, `findMemberDistinctBy`
+- LIMIT: `findFirst3`, `findFirst`, `findTop`, `findTop3`
+<br><br>
 
 - `By`하고 아무것도 없으면 전체 조회
 - `By`뒤에 `where`에 넣을 컨디션을 넣어주기
-
 - `findTop3HelloBy`
+<br><br>
+- 스프링 데이터 JPA는 메소드 이름을 분석해서 JPQL을 생성하고 실행
+- 엔티티의 필드명이 변경되면 인터페이스에 정의한 메서드 이름도 꼭 함께 변경해야 함. 그렇지
+않으면 애플리케이션을 시작하는 시점에 오류가 발생
 
+---
+### ✔️ `2. JPA NamedQuery`
+```java
+@NamedQuery(
+        name="Member.findByUsername",
+        query="select m from Member m where m.username = :username")
+public class Member {
+}
+```
+- `@NamedQuery` 어노테이션으로 Named 쿼리 정의
 
+**JPA를 사용해서 쿼리 호출**
+```java
+//MemberJpaRepository
+public List<Member> findByUsername(String username){
+    return em.createQuery("Member.findByUsername", Member.class)
+            .setParameter("username", username)
+            .getResultList();
+}
+//MemberJpaRepositoryTest
+@Test
+public void testNamedQuery(){
+    Member m1 = new Member("AAA", 10);
+    Member m2 = new Member("BBB", 20);
+    memberJpaRepository.save(m1);
+    memberJpaRepository.save(m2);
 
+    List<Member> result = memberJpaRepository.findByUsername("AAA");
+    Member findMember = result.get(0);
+    assertThat(findMember).isEqualTo(m1);
+}
+```
+
+**스프링 데이터 JPA를 사용해서 쿼리 호출**
+```java
+@Query(name = "Member.findByUsername") //생략가능
+List<Member> findByUsername(@Param("username") String username);
+```
+- `@Query` 를 생략하고 메서드 이름만으로 Named 쿼리를 호출할 수 있음
 - `NamedQuery`의 장점: 애플리케이션 로딩 시점에 오류가 있으면 오류 발생시킴
 
+```java
+public interface MemberRepository
+extends JpaRepository<Member, Long> { //** 여기 선언한 Member 도메인 클래스
+    List<Member> findByUsername(@Param("username") String username);
+}
+```
+- 스프링 데이터 JPA는 선언한 `도메인 클래스 + .(점) + 메서드 이름`으로 Named 쿼리를 찾아서 실행가능
+- 만약 실행할 Named 쿼리가 없으면 메서드 이름으로 쿼리 생성 전략을 사용
+
+---
+### ✔️ `3. @Query, 리포지토리 메소드에 쿼리 정의하기`
+
+```java
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    @Query("select m from Member m where m.username= :username and m.age = :age")
+    List<Member> findUser(@Param("username") String username, @Param("age") int
+    age);
+}
+```
+```java
+@Test
+public void testQuery(){
+    Member m1 = new Member("AAA", 10);
+    Member m2 = new Member("BBB", 20);
+    memberRepository.save(m1);
+    memberRepository.save(m2);
+
+    List<Member> result = memberRepository.findUser("AAA", 10);
+    assertThat(result.get(0)).isEqualTo(m1);
+}
+```
+- 실행할 메서드에 정적 쿼리를 직접 작성하므로 이름 없는 Named 쿼리라 할 수 있음
+- JPA Named 쿼리처럼 애플리케이션 실행 시점에 문법 오류를 발견할 수 있음(매우 큰 장점)
 
 
-//7
+#### ✨ @Query, 값, DTO 조회하기
+```java
+//단순히 값 하나 조회
+@Query("select m.username from Member m")
+List<String> findUsernameList();
+
+//DTO로 직접 조회
+@Query("select new study.datajpa.dto.MemberDto(m.id, m.username, t.name) from Member m join m.team t")
+List<MemberDto> findMemberDto();
+```
+```java
+@Data
+public class MemberDto {
+    private Long id;
+    private String username;
+    private String teamName;
+
+    public MemberDto(Long id, String username, String teamName) {
+        this.id = id;
+        this.username = username;
+        this.teamName = teamName;
+    }
+}
+```
+```java
+@Test
+public void findUsernameList(){
+    Member m1 = new Member("AAA", 10);
+    Member m2 = new Member("BBB", 20);
+    memberRepository.save(m1);
+    memberRepository.save(m2);
+
+    List<String> usernameList = memberRepository.findUsernameList();
+    for (String s : usernameList) {
+        System.out.println("s = " + s);
+    }
+}
+
+@Test
+public void findMemberDto(){
+    Team team = new Team("teamA");
+    teamRepository.save(team);
+
+    Member m1 = new Member("AAA", 10);
+    m1.setTeam(team);
+    memberRepository.save(m1);
+
+    List<MemberDto> memberDto = memberRepository.findMemberDto();
+    for (MemberDto dto : memberDto) {
+        System.out.println("dto = " + dto);
+    }
+}
+```
+- JPA 값 타입(`@Embedded`)도 이 방식으로 조회가능
+
+
+#### ✨ 파리미터 바인딩
+- 위치 기반 `select m from Member m where m.username = ?0`
+- 이름 기반 `select m from Member m where m.username = :name`
+
+```java
+@Query("select m from Member m where m.username in :names")
+List<Member> findByNames(@Param("names") Collection<String> names);
+```
+```java
+@Test
+public void findByNames(){
+    Member m1 = new Member("AAA", 10);
+    Member m2 = new Member("BBB", 20);
+    memberRepository.save(m1);
+    memberRepository.save(m2);
+
+    List<Member> result = memberRepository.findByNames(Arrays.asList("AAA", "BBB"));
+    for (Member member : result) {
+        System.out.println("member = " + member);
+    }
+}
+```
+
+#### ✨ 반환타입
+- 스프링 데이터 JPA는 유연한 반환 타입 지원
 - `Optional` 값이 있는지 없는지 모를때 사용 권장
+```java
+List<Member> findListByUsername(String username);//컬렉션
+Member findMemberByUsername(String username); //단건
+Optional<Member> findOptionalByUsername(String username); //optional
+```
+```java
+@Test
+public void returnType(){
+    Member m1 = new Member("AAA", 10);
+    Member m2 = new Member("BBB", 20);
+    memberRepository.save(m1);
+    memberRepository.save(m2);
+
+    List<Member> aaa = memberRepository.findListByUsername("AAA"); //값이 없으면, null이 아니라 빈 컬렉션 반환
+    Member findMember = memberRepository.findMemberByUsername("AAA");
+    Optional<Member> a = memberRepository.findOptionalByUsername("AAA");
+}
+```
+- 컬렉션
+   - 결과 없음: 빈 컬렉션 반환
+- 단건 조회
+   - 결과 없음: `null` 반환
+   - 결과가 2건 이상: `javax.persistence.NonUniqueResultException` 예외 발생
+>  단건으로 지정한 메서드를 호출하면 스프링 데이터 JPA는 내부에서 JPQL의 `Query.getSingleResult()` 메서드를 호출. 이 메서드를 호출했을 때 조회 결과가 없으면 `javax.persistence.NoResultException` 예외가 발생하는데 개발자 입장에서 다루기가 불편하므로 예외를 무시하고 대신에 `null` 을 반환
+
+
+---
+### ✔️ `페이징과 정렬`
+#### ✨ `순수 JPA 페이징과 정렬`
+- 검색 조건: 나이 10살
+- 정렬 조건: 이름으로 내림차순
+- 페이징 조건: 첫 번째 페이지, 페이지당 보여줄 데이터는 3건
+```java
+public List<Member> findByPage(int age, int offset, int limit){
+    return em.createQuery("select m from Member m where m.age = :age order by m.username desc")
+            .setParameter("age", age)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
+}
+
+public long totalCount(int age){
+    return em.createQuery("select count(m) from Member m where m.age = :age", Long.class)
+            .setParameter("age", age)
+            .getSingleResult();
+}
+```
+```java
+@Test
+public void paging(){
+    //given
+    memberJpaRepository.save(new Member("member1", 10));
+    memberJpaRepository.save(new Member("member2", 10));
+    memberJpaRepository.save(new Member("member3", 10));
+    memberJpaRepository.save(new Member("member4", 10));
+    memberJpaRepository.save(new Member("member5", 10));
+
+    int age = 10;
+    int offset = 0;
+    int limit = 3;
+
+    //when
+    List<Member> members = memberJpaRepository.findByPage(age, offset, limit);
+    long totalCount = memberJpaRepository.totalCount(age);
+
+    //then
+    assertThat(members.size()).isEqualTo(3);
+    assertThat(totalCount).isEqualTo(5);
+}
+```
+
+
+#### ✨ `스프링 데이터 JPA 페이징과 정렬`
+
+**페이징과 정렬 파라미터**
+- `org.springframework.data.domain.Sort` : 정렬 기능
+- `org.springframework.data.domain.Pageable` : 페이징 기능 (내부에 `Sort` 포함)
+
+**특별한 반환 타입**
+- `org.springframework.data.domain.Page` : 추가 count 쿼리 결과를 포함하는 페이징
+- `org.springframework.data.domain.Slice` : 추가 count 쿼리 없이 다음 페이지만 확인 가능(내부적으로 limit + 1조회)
+    - 다음 페이지 여부 확인
+- `List` (자바 컬렉션): 추가 count 쿼리 없이 결과만 반환
+
+```java
+Page<Member> findByAge(int age, Pageable pageable);
+Slice<Member> findByAge(int age, Pageable pageable);
+List<Member> findByAge(int age, Pageable pageable);
+List<Member> findByAge(int age, Sort sort);
+```
+
+```java
+@Test
+public void paging(){
+    //given
+    memberRepository.save(new Member("member1", 10));
+    memberRepository.save(new Member("member2", 10));
+    memberRepository.save(new Member("member3", 10));
+    memberRepository.save(new Member("member4", 10));
+    memberRepository.save(new Member("member5", 10));
+
+    int age = 10;
+    PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+
+    //when
+    Page<Member> page = memberRepository.findByAge(age, pageRequest); 
+    //전체 갯수 자동으로 받아줌
+    //SQL쿼리 + count SQL 쿼리
+
+    //페이지를 유지하면서 엔티티를 DTO로 변환하기
+    // Page<MemberDto> toMap = page.map(m -> new MemberDto(m.getId(), m.getUsername(), null));
+
+    //then
+    List<Member> content = page.getContent(); //조회된 데이터
+    long totalElements = page.getTotalElements(); //전체 데이터 수
+
+    for (Member member : content) {
+        System.out.println("member = " + member); //member5,4,3
+    }
+    System.out.println("totalElements = " + totalElements); //5개
+
+    assertThat(content.size()).isEqualTo(3); //조회된 데이터 수
+    assertThat(page.getTotalElements()).isEqualTo(5);
+    assertThat(page.getNumber()).isEqualTo(0); //페이지 번호 가져오기
+    assertThat(page.getTotalPages()).isEqualTo(2); //전체 페이지 2개
+    assertThat(page.isFirst()).isTrue(); //첫 번째 항목인가
+    assertThat(page.hasNext()).isTrue(); //다음 페이지가 있는가
+}
+```
+- `Page는 1부터 시작이 아니라 0부터 시작`
+- 두 번째 파라미터로 받은 `Pageable` 은 인터페이스임. 따라서 실제 사용할 때는 해당 인터페이스를 구현한 `PageRequest` 객체를 사용
+- `PageRequest` 생성자의 첫 번째 파라미터에는 `현재 페이지`를, 두 번째 파라미터에는 `조회할 데이터 수`를 입력
+- 추가로 정렬 정보도 파라미터로 사용할 수 있음
+
+**Page 인터페이스**
+```java
+public interface Page<T> extends Slice<T> {
+    int getTotalPages(); //전체 페이지 수
+    long getTotalElements(); //전체 데이터 수
+    <U> Page<U> map(Function<? super T, ? extends U> converter); //변환기
+}
+```
+
+**Slice 사용**
+```java
+@Test
+public void slicing(){
+    ...
+    PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+    //limit 4로 SQL나감
+
+    //when
+    Slice<Member> page = memberRepository.findByAge(age, pageRequest);
+
+    //then
+    List<Member> content = page.getContent();
+    assertThat(content.size()).isEqualTo(3);
+    assertThat(page.getNumber()).isEqualTo(0);
+    assertThat(page.isFirst()).isTrue();
+    assertThat(page.hasNext()).isTrue();
+}
+```
+
+**count쿼리 분리하고 싶다면**
+```java
+@Query(value = "select m from Member m left join m.team t",
+        countQuery = "select count(m.username) from Member m") //left join이므로 성능위해 join안하는 count쿼리 따로 날려줌
+Page<Member> findByAge(int age, Pageable pageable);
+- 카운트 쿼리 분리(복잡한 sql에서 사용, 데이터는 left join, 카운트는 left join 안해도 됨)
+- 전체 count 조회 쿼리는 무겁기 때문에 분리해서 사용
+
+```
+```java
+List<Member> findTop3By();
+```
+- `List<Member> findTop3ByAge(age)`; 페이징 안넘길때, 단순 3건만 조회할때
+
+
+---
+### ✔️ `벌크성 수정 쿼리`
+#### ✨ `순수 JPA 페이징과 정렬`
+```java
+public int bulkAgePlus(int age){
+    int resultCount = em.createQuery("update Member m set m.age = m.age + 1" +
+            " where m.age >= :age")
+            .setParameter("age", age)
+            .executeUpdate();
+    return resultCount;
+}
+```
+```java
+@Test
+public void bulkUpdate(){
+    //given
+    memberJpaRepository.save(new Member("member1", 10));
+    memberJpaRepository.save(new Member("member2", 19));
+    memberJpaRepository.save(new Member("member3", 20));
+    memberJpaRepository.save(new Member("member4", 21));
+    memberJpaRepository.save(new Member("member5", 40));
+    //when
+    int resultCount = memberJpaRepository.bulkAgePlus(20);
+    //then
+    assertThat(resultCount).isEqualTo(3);
+}
+```
+#### ✨ `스프링 데이터 JPA 페이징과 정렬`
+```java
+@Modifying(clearAutomatically = true)
+@Query("update Member m set m.age = m.age + 1 where m.age >= :age")
+int bulkAgePlus(@Param("age") int age);
+```
+```java
+@Test
+public void bulkUpdate(){
+    ...순수 JPA테스트와 코드 같음    
+    //when
+    int resultCount = memberRepository.bulkAgePlus(20);
+    //JPQL이라 DB에 INSERT(save한것) 날리고(flush) UPDATE날림
+//  em.flush(); //혹시 DB에 반영되지 않은게 있다면 flush해줌, save한것들은 이미 쓰기지연저장소에 있는 쿼리를 날려줬기 때문에 새롭게 flush안됨
+//  em.clear();
+
+    List<Member> result = memberRepository.findByUsername("member5");
+    Member member5 = result.get(0);
+    System.out.println("member5 = " + member5); //41로 변경됨
+
+    assertThat(resultCount).isEqualTo(3);
+}
+```
+- 벌크성 수정, 삭제 쿼리는 `@Modifying` 어노테이션을 사용
+    - 사용하지 않으면 예외 발생
+- 벌크성 쿼리를 실행하고 나서 영속성 컨텍스트 초기화: `@Modifying(clearAutomatically = true)`(기본값은 `false`)
+    - 이 옵션 사용안하고 `em.clear()`사용해도 됨
+    - 이 옵션 없이 회원을 다시 조회하면 영속성 컨텍스트에 과거 값이 남아서 문제가 될 수 있음
+- 벌크 연산은 영속성 컨텍스트를 무시하고 실행하기 때문에, 영속성 컨텍스트에 있는 엔티티의 상태와 DB에 엔티티 상태가 달라질 수 있음
+    1. 영속성 컨텍스트에 엔티티가 없는 상태에서 벌크 연산을 먼저 실행
+    2. 부득이하게 영속성 컨텍스트에 엔티티가 있으면 벌크 연산 직후 영속성 컨텍스트를 초기화
+
+---
+### ✔️ `@EntityGraph`
 
 
 
 
-//11
-`List<Member> findTop3ByAge(age)`; 페이징 안넘길때, 단순 3건만 조회할때
-
-
+---
+### ✔️ `벌크성 수정 쿼리`
