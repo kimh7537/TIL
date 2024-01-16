@@ -749,4 +749,4 @@ public void bulkUpdate(){
 
 
 ---
-### ✔️ `벌크성 수정 쿼리`
+### ✔️ `JPA Hint & Lock`
