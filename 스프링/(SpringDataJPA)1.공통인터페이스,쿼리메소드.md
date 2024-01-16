@@ -70,8 +70,8 @@ public class Team {
     }
 }
 ```
-- Member와 Team은 양방향 연관관계, `Member.team` 이 연관관계의 주인, `Team.members` 는 연관관계의 주
-인이 아님, 따라서 `Member.team` 이 데이터베이스 외래키 값을 변경, 반대편은 읽기만 가능
+- Member와 Team은 양방향 연관관계, `Member.team` 이 연관관계의 주인, `Team.members` 는 연관관계의 주인이 아님
+- 따라서 `Member.team` 이 데이터베이스 외래키 값을 변경, 반대편은 읽기만 가능
 ```java
 @SpringBootTest
 @Transactional
@@ -114,6 +114,7 @@ class MemberTest {
 ```
 - 모든 `Member` 들고오는 SQL 쿼리 1개
 - `member.getTeam()`으로 프록시 상태 초기화 하면서 SQL쿼리 2개 날림(`@ToString`이 존재하므로, 호출하면서 바로 초기화)
+
 ---
 ---
 ## ✏️ `공통 인터페이스 기능`
