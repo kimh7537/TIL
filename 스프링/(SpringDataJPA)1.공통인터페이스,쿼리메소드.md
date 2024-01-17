@@ -859,6 +859,7 @@ public void lock(){
     em.clear();
 
     List<Member> findMember = memberRepository.findLockByUsername("member1");
+    //select .. for update 쿼리 날아감
 }
 ```
 - 데이터를 수정하는 즉시 트랜잭션 충돌을 감지할 수 있다(비관적 락)
