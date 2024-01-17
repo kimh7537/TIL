@@ -745,8 +745,121 @@ public void bulkUpdate(){
 ---
 ### ✔️ `@EntityGraph`
 
+```java
+@Test
+public void findMemberLazy(){
+    //member1 -> teamA
+    //member2 -> teamB
+    Team teamA = new Team("teamA");
+    Team teamB = new Team("teamB");
+    teamRepository.save(teamA);
+    teamRepository.save(teamB);
+    Member member1 = new Member("member1", 10, teamA);
+    Member member2 = new Member("member2", 10, teamB);
+    memberRepository.save(member1);
+    memberRepository.save(member2);
 
+    em.flush();
+    em.clear();
+
+    List<Member> members = memberRepository.findAll(); //SQL쿼리 한번
+
+    for(Member member : members){
+        System.out.println("member.getUsername() = " + member.getUsername());
+        System.out.println("member.getTeam().getClass() = " + member.getTeam().getClass()); //프록시
+        System.out.println("member.getTeam().getName() = " + member.getTeam().getName()); //루프 마다 team SQL쿼리 날아감
+    }
+}
+```
+- member, team은 지연로딩 관계
+- team의 데이터를 조회할 때 마다 쿼리가 실행됨(N+1 문제 발생)
+
+**해결**
+```java
+//MemberRepository
+//JPQL페치 조인
+@Query("select m from Member m left join fetch m.team")
+List<Member> findMemberFetchJoin();
+//공통 메서드 오버라이드
+@Override
+@EntityGraph(attributePaths = {"team"})
+List<Member> findAll();
+//JPQL+엔티티그래프
+@EntityGraph(attributePaths = {"team"})
+@Query("select m from Member m")
+List<Member> findMemberEntityGraph();
+//메서드 이름으로 쿼리
+@EntityGraph(attributePaths = ("team"))
+List<Member> findEntityGraphByUsername(@Param("username") String username);
+```
+
+**EntityGraph 정리**
+- 사실상 페치 조인(FETCH JOIN)의 간편 버전
+- LEFT OUTER JOIN 사용
+
+```java
+//NamedEntityGraph
+@EntityGraph("Member.all")
+List<Member> findEntityGraphByUsername(@Param("username") String username);
+```
+```java
+@NamedEntityGraph(name = "Member.all", attributeNodes = @NamedAttributeNode("team"))
+public class Member{...}
+```
 
 
 ---
 ### ✔️ `JPA Hint & Lock`
+
+#### ✨ `JPA Hint`
+- JPA 쿼리 힌트
+- SQL 힌트가 아니라 JPA 구현체에게 제공하는 힌트
+
+```java
+@QueryHints(value =@QueryHint(name = "org.hibernate.readOnly", value = "true"))
+Member findReadOnlyByUsername(String username);
+```
+```java
+@Test
+public void queryHint(){
+    Member member1 = new Member("member1", 10);
+    memberRepository.save(member1);
+    em.flush();
+    em.clear();
+
+//  Member findMember = memberRepository.findById(member1.getId()).get();
+    Member findMember = memberRepository.findReadOnlyByUsername("member1"); //스냅샷 안만듦
+    findMember.setUsername("member2");
+
+    em.flush(); //Update Query 실행X
+}
+```
+
+**쿼리 힌트 Page 추가 예제**
+```java
+@QueryHints(value = { @QueryHint(name = "org.hibernate.readOnly",
+value = "true")},
+forCounting = true)
+Page<Member> findByUsername(String name, Pageable pageable);
+```
+- `forCounting` : 반환 타입으로 `Page` 인터페이스를 적용하면 추가로 호출하는 페이징을 위한 count 쿼리도 쿼리 힌트 적용(기본값 `true`)
+
+
+#### ✨ `Lock`
+```java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+List<Member> findLockByUsername(String username);
+```
+```java
+@Test
+public void lock(){
+    Member member1 = new Member("member1", 10);
+    memberRepository.save(member1);
+    em.flush();
+    em.clear();
+
+    List<Member> findMember = memberRepository.findLockByUsername("member1");
+}
+```
+- 데이터를 수정하는 즉시 트랜잭션 충돌을 감지할 수 있다(비관적 락)
+
