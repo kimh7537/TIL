@@ -314,9 +314,8 @@ public Page<MemberDto> list(@PageableDefault(size = 5) Pageable pageable){
 **Page를 1부터 시작하기**
 - 스프링 데이터는 Page를 0부터 시작함
 - 1부터 시작하도록 변경
-    1. `Pageable, Page`를 파리미터와 응답 값으로 사용히지 않고, 직접 클래스를 만들어서 처리. 그리고 직접 PageRequest(Pageable 구현체)를 생성해서 리포지토리에 넘김. 물론 응답값도 Page 대신에 직접 만들어서 제공해야함.
-    2. `spring.data.web.pageable.one-indexed-parameters` 를 `true` 로 설정. 그런데 이 방법은 web에서 `page` 파라미터를 `-1` 처리 할 뿐이다. 따라서 응답값인 `Page` 에 모두 0 페이지 인덱스를 사용하는 한계가 있음.
-
+    
+1번 방법. `Pageable, Page`를 파리미터와 응답 값으로 사용히지 않고, 직접 클래스를 만들어서 처리. 그리고 직접 PageRequest(Pageable 구현체)를 생성해서 리포지토리에 넘김. 물론 응답값도 Page 대신에 직접 만들어서 제공해야함.
 ```java
 @GetMapping("/members")
 public MyPage<MemberDto> list(@PageableDefault(size = 5)){
@@ -327,6 +326,9 @@ public MyPage<MemberDto> list(@PageableDefault(size = 5)){
     MyPage<MemberDto>... //임의로 만들어서 반환
 }
 ```
+
+2번 방법. `spring.data.web.pageable.one-indexed-parameters` 를 `true` 로 설정. 그런데 이 방법은 web에서 `page` 파라미터를 `-1` 처리 할 뿐이다. 따라서 응답값인 `Page` 에 모두 0 페이지 인덱스를 사용하는 한계가 있음.
+
 - Page 1요청 (`http://localhost:8080/members?page=1`)
 - pageNumber: 0이 나옴
 - Page 2요청: 실제 원래 Page 1이 나옴, pageNumber=1, number=1->한계
