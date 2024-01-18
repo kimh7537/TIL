@@ -1,4 +1,4 @@
-# (MVC1)MVC구조이해
+# (MVC)1.MVC구조이해
 
 ## ✏️ 스프링 MVC 구조
 ![](https://velog.velcdn.com/images/w009981/post/2da8b78c-b913-4dd4-a14e-c1d94046841f/image.png)
