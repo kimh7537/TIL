@@ -121,9 +121,7 @@ class MemberTest {
 ### ✔️ `순수 JPA 기반 리포지토리 만들기`
 > JPA에서 수정은 변경감지 기능을 사용하면 됨.
 트랜잭션 안에서 엔티티를 조회한 다음에 데이터를 변경하면, 트랜잭션 종료 시점에 변경감지 기능이 작동해서 변경된 엔티티를 감지하고 UPDATE SQL을 실행
-```java
 
-```
 ```java
 @Repository
 public class MemberJpaRepository {
@@ -274,9 +272,9 @@ class MemberRepositoryTest {
 - `boolean exists(ID)` -> `boolean existsById(ID)` 변경
 
 **제네릭 타입**
-`T` : 엔티티
-`ID` : 엔티티의 식별자 타입
-`S` : 엔티티와 그 자식 타입
+- `T` : 엔티티
+- `ID` : 엔티티의 식별자 타입
+- `S` : 엔티티와 그 자식 타입
 
 **주요 메서드**
 - `save(S)` : 새로운 엔티티는 저장하고 이미 있는 엔티티는 병합
@@ -780,14 +778,17 @@ public void findMemberLazy(){
 //JPQL페치 조인
 @Query("select m from Member m left join fetch m.team")
 List<Member> findMemberFetchJoin();
+
 //공통 메서드 오버라이드
 @Override
 @EntityGraph(attributePaths = {"team"})
 List<Member> findAll();
+
 //JPQL+엔티티그래프
 @EntityGraph(attributePaths = {"team"})
 @Query("select m from Member m")
 List<Member> findMemberEntityGraph();
+
 //메서드 이름으로 쿼리
 @EntityGraph(attributePaths = ("team"))
 List<Member> findEntityGraphByUsername(@Param("username") String username);
