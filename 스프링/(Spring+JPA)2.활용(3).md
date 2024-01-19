@@ -319,7 +319,7 @@ public List<Order> findAllWithMemberDelivery(int offset, int limit) {
             " join fetch o.member m" +
             " join fetch o.delivery d", Order.class   
     // 위의 join fetch 부분 2줄 없어도 batch있으면 in쿼리 사용
-    // order쿼리 1개(in쿼리로 order2개 들고옴), member 쿼리 1개(in 쿼리), delivery 쿼리 1개, orderItems 쿼리 1개, Item 쿼리 1개
+    //-> order쿼리 1개(in쿼리로 order2개 들고옴), member 쿼리 1개(in 쿼리), delivery 쿼리 1개, orderItems 쿼리 1개, Item 쿼리 1개
     ).setFirstResult(offset)
      .setMaxResults(limit)
      .getResultList();
@@ -567,18 +567,14 @@ public List<OrderFlatDto> findAllByDto_flat() {
 }
 ```
 ```java
-//OrderQuertDto 생성자 추가
-public List<OrderFlatDto> findAllByDto_flat() {
-return em.createQuery(
-    "select new
-    jpabook.jpashop.repository.order.query.OrderFlatDto(o.id, m.name, o.orderDate,
-    o.status, d.address, i.name, oi.orderPrice, oi.count)" +
-    " from Order o" +
-    " join o.member m" +
-    " join o.delivery d" +
-    " join o.orderItems oi" +
-    " join oi.item i", OrderFlatDto.class)
-    .getResultList();
+//OrderQueryDto 생성자 추가
+public OrderQueryDto(Long orderId, String name,LocalDateTime orderDate, OrderStatus orderStatus,Address address, List<OrderItemQueryDto> orderItems) {
+    this.orderId = orderId;
+    this.name = name;
+    this.orderDate = orderDate;
+    this.orderStatus = orderStatus;
+    this.address = address;
+    this.orderItems = orderItems;
 }
 ```
 ```java
