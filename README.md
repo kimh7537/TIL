@@ -10,8 +10,8 @@ _31 TILs and counting..._
 
 ### 2 most recent TILs
 
-- [(SpringDataJPA)2.확장,분석](스프링/(SpringDataJPA)2.확장,분석.md) - Mon Jan 15 03:07:31 2024 +0900
-- [(SpringDataJPA)1.공통인터페이스,쿼리메소드](스프링/(SpringDataJPA)1.공통인터페이스,쿼리메소드.md) - Mon Jan 15 03:07:31 2024 +0900
+- [(MVC)4.스프링MVC기본](스프링/(MVC)4.스프링MVC기본.md) - Fri Jan 19 04:10:24 2024 +0900
+- [(MVC)3.로깅](스프링/(MVC)3.로깅.md) - Fri Jan 19 04:10:24 2024 +0900
 
 ### Categories
 
@@ -45,12 +45,12 @@ _31 TILs and counting..._
 - [(JPA)7.값타입](스프링/(JPA)7.값타입.md)
 - [(JPA)8.객체지향쿼리언어1](스프링/(JPA)8.객체지향쿼리언어1.md)
 - [(JPA)8.객체지향쿼리언어2](스프링/(JPA)8.객체지향쿼리언어2.md)
-- [(MVC1)MVC구조이해](스프링/(MVC1)MVC구조이해.md)
-- [(MVC2)HTTP메시지컨버터](스프링/(MVC2)HTTP메시지컨버터.md)
-- [(MVC3)로깅](스프링/(MVC3)로깅.md)
-- [(MVC4)스프링MVC기본](스프링/(MVC4)스프링MVC기본.md)
-- [(MVC5)MVC활용](스프링/(MVC5)MVC활용.md)
-- [(QueryDsl)1.기본문법](스프링/(QueryDsl)1.기본문법.md)
+- [(MVC)1.MVC구조이해](스프링/(MVC)1.MVC구조이해.md)
+- [(MVC)2.HTTP메시지컨버터](스프링/(MVC)2.HTTP메시지컨버터.md)
+- [(MVC)3.로깅](스프링/(MVC)3.로깅.md)
+- [(MVC)4.스프링MVC기본](스프링/(MVC)4.스프링MVC기본.md)
+- [(MVC)5.MVC활용](스프링/(MVC)5.MVC활용.md)
+- [(QueryDsl)1.문법](스프링/(QueryDsl)1.문법.md)
 - [(Spring+JPA)1.활용](스프링/(Spring+JPA)1.활용.md)
 - [(Spring+JPA)2.활용(1)](스프링/(Spring+JPA)2.활용(1).md)
 - [(Spring+JPA)2.활용(2)](스프링/(Spring+JPA)2.활용(2).md)
