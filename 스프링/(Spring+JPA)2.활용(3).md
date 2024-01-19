@@ -607,6 +607,7 @@ public class OrderFlatDto {
 - Query: 1번
 - `@EqualsAndHashCode(of = "orderId")
 public class OrderQueryDto {...` 이렇게 작성해야 중복이 사라지고, v2와 같은 결과가 나옴
+    - `orderId`기준으로 묶어줌
 
 **단점**
 - 쿼리는 한번이지만 조인으로 인해 DB에서 애플리케이션에 전달하는 데이터에 중복 데이터가 추가되므로 상황에 따라 V5 보다 더 느릴 수 도 있음
