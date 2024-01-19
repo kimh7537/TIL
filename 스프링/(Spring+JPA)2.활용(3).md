@@ -219,11 +219,11 @@ static class OrderItemDto{
 
 - 트랜잭션 안에서 지연 로딩 필요
 - 지연 로딩으로 너무 많은 SQL 실행됨
-   - `order` 1번(전체는 2번)
+   - `order` 1번(1번 실행해서 2개 들고옴)
    - `member` , `address` N번(order 조회 수 만큼)
    - `orderItem` N번(order 조회 수 만큼)
    - `item` N번(orderItem 조회 수 만큼)
-   - `order`1개 기준: `member` 1개, `address`1개, `orderItem` 1개, `item` 2개 -> 전체 12개 SQL
+   - `order`1개 기준: `member` 1개, `address`1개, `orderItem` 1개, `item` 2개 -> 전체 11개 SQL
 
 > 지연 로딩은 영속성 컨텍스트에 있으면 영속성 컨텍스트에 있는 엔티티를 사용하고 없으면 SQL을 실행, 따라서 같은 영속성 컨텍스트에서 이미 로딩한 회원 엔티티를 추가로 조회하면 SQL을 실행하지 않음
 

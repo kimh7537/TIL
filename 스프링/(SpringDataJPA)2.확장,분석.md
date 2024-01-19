@@ -190,7 +190,7 @@ public class BaseEntity extends BaseTimeEntity {
 ```
 
 > - 저장시점에 등록일, 등록자는 물론이고, 수정일, 수정자도 같은 데이터가 저장됨. 이렇게 하지 않으면 변경 컬럼이 `null` 일때 등록 컬럼을 또 찾아야 함<br>
-> - 저장시점에 저장데이터만 입력하고 싶으면 `@EnableJpaAuditing(modifyOnCreate = false)` 옵션을 사용하면 됨
+> - 저장시점에 저장데이터(update=null, create=값)만 입력하고 싶으면 `@EnableJpaAuditing(modifyOnCreate = false)` 옵션을 사용하면 됨
 
 ---
 ---
@@ -251,7 +251,7 @@ public void init(){
 - sort: 정렬 조건을 정의, 정렬 방향을 변경하고 싶으면 `sort` 파라미터 추가 (`asc` 생략 가능)
 
 **기본값**
-1. 글로벌 설정
+1. 글로벌 설정(application.yml)
 ```yaml
 spring.data.web.pageable.default-page-size=20 /# 기본 페이지 사이즈/
 spring.data.web.pageable.max-page-size=2000 /# 최대 페이지 사이즈/
@@ -318,7 +318,7 @@ public Page<MemberDto> list(@PageableDefault(size = 5) Pageable pageable){
 1번 방법. `Pageable, Page`를 파리미터와 응답 값으로 사용히지 않고, 직접 클래스를 만들어서 처리. 그리고 직접 PageRequest(Pageable 구현체)를 생성해서 리포지토리에 넘김. 물론 응답값도 Page 대신에 직접 만들어서 제공해야함.
 ```java
 @GetMapping("/members")
-public MyPage<MemberDto> list(@PageableDefault(size = 5)){
+public MyPage<MemberDto> list(@PageableDefault(size = 5) Pageable pageable){
     PageRequest request = PageRequest.of(1, 2);
 
     Page<MemberDto> map = memberRepository.findAll(request)
