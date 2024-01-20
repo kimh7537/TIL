@@ -681,7 +681,7 @@ public class OrderQueryDto {...` 이렇게 작성해야 중복이 사라지고, 
 
 ![Alt text](image/image-69.png)
 
-`spring.jpa.open-in-view: false` OSIV 종료
+`spring.jpa.open-in-view: false` OSIV 종료(application.yml)
 
 - OSIV를 끄면 트랜잭션을 종료할 때 `영속성 컨텍스트`를 닫고, `데이터베이스 커넥션`도 반환함
 - 커넥션 리소스를 낭비하지 않음
