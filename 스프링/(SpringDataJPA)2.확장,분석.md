@@ -315,7 +315,7 @@ public Page<MemberDto> list(@PageableDefault(size = 5) Pageable pageable){
 - 스프링 데이터는 Page를 0부터 시작함
 - 1부터 시작하도록 변경
     
-1번 방법. `Pageable, Page`를 파리미터와 응답 값으로 사용히지 않고, 직접 클래스를 만들어서 처리. 그리고 직접 PageRequest(Pageable 구현체)를 생성해서 리포지토리에 넘김. 물론 응답값도 Page 대신에 직접 만들어서 제공해야함.
+1번 방법. `Pageable, Page`를 파리미터와 응답 값으로 사용하지 않고, 직접 클래스를 만들어서 처리. 그리고 직접 PageRequest(Pageable 구현체)를 생성해서 리포지토리에 넘김. 물론 응답값도 Page 대신에 직접 만들어서 제공해야함.
 ```java
 @GetMapping("/members")
 public MyPage<MemberDto> list(@PageableDefault(size = 5) Pageable pageable){
