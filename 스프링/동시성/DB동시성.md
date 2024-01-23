@@ -2,6 +2,33 @@
 
 ---
 ---
+## ✏️ `Java`
+
+`ExecutorService`
+- 병렬 작업 시 여러 개의 작업을 효율적으로 처리하기 위해 제공되는 JAVA 라이브러리
+- ExecutorService는 손쉽게 ThreadPool을 구성하고 Task를 실행하고 관리할 수 있는 역할 진행
+- Executors 를 사용하여 ExecutorService 객체를 생성하며, 쓰레드 풀의 개수 및 종류를 지정할 수 있는 메소드를 제공
+
+`CountDownLatch`
+- 어떤 스레드가 다른 쓰레드에서 작업이 완료될 때 가지 기다릴 수 있도록 해주는 클래스
+- CountDownLatch 를 이용하여, 멀티스레드가 100번 작업이 모두 완료한 후, 테스트를 하도록 기다리게 함
+
+**사용**
+- `new CountDownLatch(5);` 를 이용해 Latch할 갯수를 지정
+- `countDown()`을 호출하면 Latch의 숫자가 1개씩 감소
+- `await()` 는 Latch의 숫자가 0이 될 때 까지 기다림
+
+### 1. `synchronized`
+- 하나의 스레드만 접근이 가능하게 만들어줌
+- 공유되는 데이터의 Thread-safe를 하기 위해, synchronized 로 스레드간 동기화를 시켜 thread-safe 하게 만들어줍니다.
+- 자바에서 지원하는 synchronized는, 현제 데이터를 사용하고 있는 해당 스레드를 제외하고 나머지 스레드들은 데이터 접근을 막아 순차적으로 데이터에 접근할 수 있도록 해줌
+
+**단점**
+- 자바의 Sychronized는 하나의 프로세스 안에서만 보장이 됨
+- 서버가 1대일때는 문제가 없지만 서버가 2대 이상일 경우 데이터에 대한 접근을 막을 수가 없다
+
+
+---
 ## ✏️ `MySQL`
 ### 1. `Pessimistic Lock`
 - 실제로 데이터에 Lock을 걸어서 정합성을 맞추는 방법
