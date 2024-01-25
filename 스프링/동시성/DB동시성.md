@@ -20,7 +20,7 @@
 
 ### 1. `synchronized`
 - 하나의 스레드만 접근이 가능하게 만들어줌
-- 공유되는 데이터의 Thread-safe를 하기 위해, synchronized 로 스레드간 동기화를 시켜 thread-safe 하게 만들어줍니다.
+- 공유되는 데이터의 Thread-safe를 하기 위해, synchronized 로 스레드간 동기화를 시켜 thread-safe 하게 만들어줌
 - 자바에서 지원하는 synchronized는, 현제 데이터를 사용하고 있는 해당 스레드를 제외하고 나머지 스레드들은 데이터 접근을 막아 순차적으로 데이터에 접근할 수 있도록 해줌
 
 **단점**
@@ -31,30 +31,52 @@
 
 ---
 ## ✏️ `MySQL`
-### 1. `Pessimistic Lock`
+### 1. `Pessimistic Lock`(비관적 락)
 - 실제로 데이터에 Lock을 걸어서 정합성을 맞추는 방법
 - exclusive lock을 걸게되면 다른 트랜잭션에서는 lock이 해제되기전에 데이터를 가져갈 수 없게됨
 - 데드락이 걸릴 수 있기 때문에 주의하기
+- 데이터에 Lock을 가진 쓰레드만 접근할 수 있음
 
 **장점**
 - 충돌이 빈번히 발생한다면 `optimistic lock`보다 성능이 좋음
 
+```java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("select s from Stock s where s.id = :id")
+Stock findByIdWithPessimisticLock(@Param("id") Long id);
+```
+![Alt text](image.png)
 
 
-### 2. `Optimistic Lock`
+### 2. `Optimistic Lock`(낙관적 락)
 - 실제로 Lock을 이용하지 않고 버전을 이용함으로써 정합성을 맞추는 방법
 - 데이터를 읽은 후에 update를 수행할 때 현재 내가 읽은 버전이 맞는지 확인하며 업데이트
 - 내가 읽은 버전에서 수정사항이 생겼을 경우에는 application에서 다시 읽은 후에 작업을 수행해야함
 
 - 별도의 Lock을 잡지 않으므로 `Pessimistic Lock`보다 성능상의 이점이 있음
-- 실패했을때 재시도 로직을 개발자가 직접 작성해야함
+- 실패했을때 재시도 로직을 개발자가 직접 작성해야함(Facade)
 - 충돌이 빈번하지 않을때 사용하기(빈번하다면 `Pessimistic Lock`)
+
+```java
+@Lock(LockModeType.OPTIMISTIC)
+@Query("select s from Stock s where s.id = :id")
+Stock findByIdWithOptimisticLock(@Param("id") Long id);
+```
+
+![Alt text](image-1.png)
 
 
 ### 3. `Named Lock`
-- 이름을 가진 metadata locking
+- 이름을 가진 metadata locking 
 - 이름을 가진 lock을 획득한 후 해제할때까지 다른 세션은 이 lock을 획득할 수 없도록 함
 - 주의할점으로는 transcation이 종료될 때 lock이 자동으로 해제되지 않음
 - 별도의 명령어로 해제를 수행해주거나 선점시간이 끝나야 해제됨
-
+- 실무에서는 데이터 소스 분리해서 사용하기
 - 분산 락을 구현할때 사용
+```java
+@Query(value = "select get_lock(:key, 3000)", nativeQuery = true)
+void getLock(@Param("key") String key);
+
+@Query(value = "select release_lock(:key)", nativeQuery = true)
+void releaseLock(@Param("key") String key);
+```
