@@ -4,14 +4,14 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_31 TILs and counting..._
+_32 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
-- [(MVC)4.스프링MVC기본](스프링/(MVC)4.스프링MVC기본.md) - Fri Jan 19 04:10:24 2024 +0900
-- [(MVC)3.로깅](스프링/(MVC)3.로깅.md) - Fri Jan 19 04:10:24 2024 +0900
+- [(QueryDsl)1.문법(2)](스프링/(QueryDsl)2.문법(2).md) - Mon Jan 29 20:00:58 2024 +0900
+- [(QueryDsl)1.문법(1)](스프링/(QueryDsl)1.문법(1).md) - Mon Jan 29 20:00:58 2024 +0900
 
 ### Categories
 
@@ -50,7 +50,8 @@ _31 TILs and counting..._
 - [(MVC)3.로깅](스프링/(MVC)3.로깅.md)
 - [(MVC)4.스프링MVC기본](스프링/(MVC)4.스프링MVC기본.md)
 - [(MVC)5.MVC활용](스프링/(MVC)5.MVC활용.md)
-- [(QueryDsl)1.문법](스프링/(QueryDsl)1.문법.md)
+- [(QueryDsl)1.문법(1)](스프링/(QueryDsl)1.문법(1).md)
+- [(QueryDsl)1.문법(2)](스프링/(QueryDsl)2.문법(2).md)
 - [(Spring+JPA)1.활용](스프링/(Spring+JPA)1.활용.md)
 - [(Spring+JPA)2.활용(1)](스프링/(Spring+JPA)2.활용(1).md)
 - [(Spring+JPA)2.활용(2)](스프링/(Spring+JPA)2.활용(2).md)
