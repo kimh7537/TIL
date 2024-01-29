@@ -4,13 +4,13 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_32 TILs and counting..._
+_33 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
-- [(QueryDsl)1.문법(2)](스프링/(QueryDsl)2.문법(2).md) - Mon Jan 29 20:00:58 2024 +0900
+- [컬렉션](JAVA/컬렉션.md) - Mon Jan 29 21:37:08 2024 +0900
 - [(QueryDsl)1.문법(1)](스프링/(QueryDsl)1.문법(1).md) - Mon Jan 29 20:00:58 2024 +0900
 
 ### Categories
@@ -28,6 +28,7 @@ _32 TILs and counting..._
 - [Class클래스](JAVA/Class클래스.md)
 - [Object클래스](JAVA/Object클래스.md)
 - [String관련](JAVA/String관련.md)
+- [컬렉션](JAVA/컬렉션.md)
 
 ### [데이터베이스](#데이터베이스)
 - [Relational_model](데이터베이스/Relational_model.md)
