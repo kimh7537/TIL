@@ -10,8 +10,8 @@ _33 TILs and counting..._
 
 ### 2 most recent TILs
 
-- [1.Class클래스](JAVA/1. Class클래스.md) - Mon Jan 29 21:55:29 2024 +0900
-- [2.Object클래스](JAVA/2. Object클래스.md) - Mon Jan 29 21:55:29 2024 +0900
+- [1.Class클래스](JAVA/1.Class클래스.md) - Mon Jan 29 22:08:00 2024 +0900
+- [2.Object클래스](JAVA/2.Object클래스.md) - Mon Jan 29 22:08:00 2024 +0900
 
 ### Categories
 
@@ -25,10 +25,10 @@ _33 TILs and counting..._
 - [hellogit](GIT/hellogit.md)
 
 ### [JAVA](#JAVA)
-- [1.Class클래스](JAVA/1. Class클래스.md)
-- [2.Object클래스](JAVA/2. Object클래스.md)
-- [3.String관련](JAVA/3. String관련.md)
-- [4.컬렉션](JAVA/4. 컬렉션.md)
+- [1.Class클래스](JAVA/1.Class클래스.md)
+- [2.Object클래스](JAVA/2.Object클래스.md)
+- [3.String관련](JAVA/3.String관련.md)
+- [4.컬렉션](JAVA/4.컬렉션.md)
 
 ### [데이터베이스](#데이터베이스)
 - [Relational_model](데이터베이스/Relational_model.md)
