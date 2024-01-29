@@ -10,8 +10,8 @@ _33 TILs and counting..._
 
 ### 2 most recent TILs
 
-- [1.Class클래스](JAVA/1.Class클래스.md) - Mon Jan 29 22:08:00 2024 +0900
-- [2.Object클래스](JAVA/2.Object클래스.md) - Mon Jan 29 22:08:00 2024 +0900
+- [1.PostgreSQL](데이터베이스/1.PostgreSQL.md) - Mon Jan 29 22:12:49 2024 +0900
+- [2.PostgreSQL](데이터베이스/2.PostgreSQL.md) - Mon Jan 29 22:12:49 2024 +0900
 
 ### Categories
 
@@ -31,9 +31,9 @@ _33 TILs and counting..._
 - [4.컬렉션](JAVA/4.컬렉션.md)
 
 ### [데이터베이스](#데이터베이스)
-- [Relational_model](데이터베이스/Relational_model.md)
-- [SQL(1)](데이터베이스/SQL(1).md)
-- [SQL(2)](데이터베이스/SQL(2).md)
+- [0.Relational_model](데이터베이스/0.Relational_model.md)
+- [1.PostgreSQL](데이터베이스/1.PostgreSQL.md)
+- [2.PostgreSQL](데이터베이스/2.PostgreSQL.md)
 
 ### [스프링](#스프링)
 - [(JPA)0.실전예제](스프링/(JPA)0.실전예제.md)
