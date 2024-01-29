@@ -1,4 +1,4 @@
-#(QueryDsl)1.문법
+#(QueryDsl)1.문법(1)
 
 ---
 ---
@@ -513,4 +513,197 @@ public void fetchJoinUse() throws Exception {
 
 ---
 ### ✔️ `서브 쿼리`
+- `JPAExpressions` 사용
 
+**서브 쿼리 eq 사용**
+```java
+@Test
+public void subQuery(){
+        QMember memberSub = new QMember("memberSub");
+
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .where(member.age.eq(
+                       JPAExpressions
+                        .select(memberSub.age.max())
+                        .from(memberSub)
+                ))
+                .fetch();
+
+        assertThat(result).extracting("age")
+                .containsExactly(40);
+}
+```
+**서브 쿼리 goe 사용**
+
+```java
+@Test
+public void subQueryGoe(){
+
+        QMember memberSub = new QMember("memberSub");
+
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .where(member.age.goe(
+                        JPAExpressions
+                        .select(memberSub.age.avg())
+                        .from(memberSub)
+                ))
+                .fetch();
+
+        assertThat(result).extracting("age")
+                .containsExactly(30, 40);
+}
+```
+
+**서브쿼리 여러 건 처리 in 사용**
+```java
+@Test
+public void subQueryIn() throws Exception {
+        QMember memberSub = new QMember("memberSub");
+
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .where(member.age.in(
+                       JPAExpressions
+                        .select(memberSub.age)
+                        .from(memberSub)
+                        .where(memberSub.age.gt(10))
+                ))
+                .fetch();
+
+        assertThat(result).extracting("age")
+                .containsExactly(20, 30, 40);
+}
+```
+**select 절에 subquery**
+```java
+@Test
+public void selectSubquery(){
+        QMember memberSub = new QMember("memberSub");
+
+        List<Tuple> result = queryFactory
+                .select(member.username,
+                        JPAExpressions
+                                .select(memberSub.age.avg())
+                                .from(memberSub))
+                .from(member)
+                .fetch();
+        for (Tuple tuple : fetch) {
+                System.out.println("username = " + tuple.get(member.username));
+                System.out.println("age = " +
+                tuple.get(JPAExpressions.select(memberSub.age.avg())
+                .from(memberSub)));
+        }
+}
+```
+- from 절의 서브쿼리는 JPQL이 지원하지 않으므로, querydsl도 지원하지 않음
+- 하이버네이트 구현체를 사용하면 select 절의 서브쿼리는 지원
+
+> **from 절의 서브쿼리 해결방안**
+> 1. 서브쿼리를 join으로 변경(불가능한 경우도 존재)
+> 2. 애플리케이션에서 쿼리를 2번 분리해서 실행
+> 3. nativeSQL을 사용
+
+----
+### ✔️ `Case 문`
+**단순한 조건**
+```java
+@Test
+public void basicCase(){
+        List<String> result = queryFactory
+                .select(member.age
+                        .when(10).then("열살")
+                        .when(20).then("스무살")
+                        .otherwise("기타"))
+                .from(member)
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+}
+```
+**복잡한 조건**
+```java
+@Test
+public void complexCase(){
+        List<String> result = queryFactory
+                .select(new CaseBuilder()
+                        .when(member.age.between(0, 20)).then("0~20살")
+                        .when(member.age.between(21, 30)).then("21살~30살")
+                        .otherwise("기타"))
+                .from(member)
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+}
+```
+
+**orderBy에서 Case 문 함께 사용하기 예제**
+1. 0 ~ 30살이 아닌 회원을 가장 먼저 출력
+2. 0 ~ 20살 회원 출력
+3. 21 ~ 30살 회원 출력
+```java
+NumberExpression<Integer> rankPath = new CaseBuilder()
+        .when(member.age.between(0, 20)).then(2)
+        .when(member.age.between(21, 30)).then(1)
+        .otherwise(3);
+
+List<Tuple> result = queryFactory
+        .select(member.username, member.age, rankPath)
+        .from(member)
+        .orderBy(rankPath.desc())
+        .fetch();
+
+for (Tuple tuple : result) {
+        String username = tuple.get(member.username);
+        Integer age = tuple.get(member.age);
+        Integer rank = tuple.get(rankPath);
+}
+```
+```
+결과
+username = member4 age = 40 rank = 3
+username = member1 age = 10 rank = 2
+username = member2 age = 20 rank = 2
+username = member3 age = 30 rank = 1
+```
+
+---
+### ✔️ `상수, 문자 더하기`
+```java
+@Test
+public void constant(){
+        //JPQL에서는 상수가 안나감
+        List<Tuple> result = queryFactory
+                .select(member.username, Expressions.constant("A"))
+                .from(member)
+                .fetch();
+
+        for (Tuple tuple : result) {
+            System.out.println("tuple = " + tuple);
+        }
+}
+```
+- 상수가 필요하면 `Expressions.constant()` 사용
+- SQL에 constant 값을 넘기지 않음
+- 상수를 더하는 것 처럼 최적화가 어려우면 SQL에 constant 값을 넘김
+
+```java
+@Test
+public void concat(){
+        List<String> result = queryFactory
+                .select(member.username.concat("_").concat(member.age.stringValue()))
+                .from(member)
+                .where(member.username.eq("member1"))
+                .fetch();
+}
+```
+- 결과: member1_10
+- `member.age.stringValue()`는 문자가 아닌 다른 타입들은 `stringValue()` 로 문자로 변환
+
+---
+> https://inf.run/Soef
