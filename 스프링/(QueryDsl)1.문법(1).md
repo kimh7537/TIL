@@ -274,7 +274,7 @@ public void paging2(){
         assertThat(queryResults.getTotal()).isEqualTo(4);
         assertThat(queryResults.getLimit()).isEqualTo(2);
         assertThat(queryResults.getOffset()).isEqualTo(1);
-        assertThat(queryResults.getResults()).isEqualTo(2);
+        assertThat(queryResults.getResults().size()).isEqualTo(2);
 }
 ```
 - count 쿼리가 실행됨
