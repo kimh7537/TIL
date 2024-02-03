@@ -4,7 +4,7 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_33 TILs and counting..._
+_34 TILs and counting..._
 
 ---
 
@@ -53,6 +53,7 @@ _33 TILs and counting..._
 - [(MVC)5.MVC활용](스프링/(MVC)5.MVC활용.md)
 - [(QueryDsl)1.문법(1)](스프링/(QueryDsl)1.문법(1).md)
 - [(QueryDsl)1.문법(2)](스프링/(QueryDsl)2.문법(2).md)
+- [(QueryDsl)3.JPA와querydsl](스프링/(QueryDsl)3.JPA와querydsl.md)
 - [(Spring+JPA)1.활용](스프링/(Spring+JPA)1.활용.md)
 - [(Spring+JPA)2.활용(1)](스프링/(Spring+JPA)2.활용(1).md)
 - [(Spring+JPA)2.활용(2)](스프링/(Spring+JPA)2.활용(2).md)
