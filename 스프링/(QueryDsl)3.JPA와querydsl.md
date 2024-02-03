@@ -77,10 +77,11 @@ public class MemberSearchCondition {
 public List<MemberTeamDto> searchByBuilder(MemberSearchCondition condition) {
     BooleanBuilder builder = new BooleanBuilder();
 
-    if (hasText(condition.getUsername())) {
+    if (StringUtils.hasText(condition.getUsername())) {
+        //들어오는 값이 null이나 ""빈 문자열인지 점검
         builder.and(member.username.eq(condition.getUsername()));
     }
-    if (hasText(condition.getTeamName())) {
+    if (StringUtils.hasText(condition.getTeamName())) {
         builder.and(team.name.eq(condition.getTeamName()));
     }
     if (condition.getAgeGoe() != null) {
