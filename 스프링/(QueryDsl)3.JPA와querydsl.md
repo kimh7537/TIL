@@ -124,8 +124,71 @@ public void searchTest(){
 
 
 #### ✨ `Where절 파라미터`
+```java
+//MemberJpaRepository
+public List<MemberTeamDto> search(MemberSearchCondition condition){
+    return queryFactory
+            .select(new QMemberTeamDto(
+                    member.id,
+                    member.username,
+                    member.age,
+                    team.id,
+                    team.name))
+            .from(member)
+            .leftJoin(member.team, team)
+            .where(
+                    usernameEq(condition.getUsername()),
+                    teamNameEq(condition.getTeamName()),
+                    ageGoe(condition.getAgeGoe()),
+                    ageLoe(condition.getAgeLoe())
+            )
+            .fetch();
+}
 
+private BooleanExpression usernameEq(String username) {
+    return isEmpty(username) ? null : member.username.eq(username);
+}
+private BooleanExpression teamNameEq(String teamName) {
+    return isEmpty(teamName) ? null : team.name.eq(teamName);
+}
+private BooleanExpression ageGoe(Integer ageGoe) {
+    return ageGoe == null ? null : member.age.goe(ageGoe);
+}
+private BooleanExpression ageLoe(Integer ageLoe) {
+    return ageLoe == null ? null : member.age.loe(ageLoe);
+}
+```
+```java
+public List<Member> searchMember(MemberSearchCondition condition){
+    return queryFactory
+            .selectFrom(member)
+            .leftJoin(member.team, team)
+            .where(
+                    usernameEq(condition.getUsername()),
+                    teamNameEq(condition.getTeamName()),
+                    ageGoe(condition.getAgeGoe()),
+                    ageLoe(condition.getAgeLoe())
+            )
+            .fetch();
+}
+```
+- 엔티티를 반환할때도 활용할 수 있는 장점
 
 ---
 ### ✔️ `조회 API 컨트롤러`
+- yml에 Profile을 local로 설정, 테스트와 분리시킴
 
+```java
+@RestController
+@RequiredArgsConstructor
+public class MemberController {
+
+    private final MemberJpaRepository memberJpaRepository;
+
+    @GetMapping("/v1/members")
+    public List<MemberTeamDto> searchMemberV1(MemberSearchCondition condition) {
+        return memberJpaRepository.search(condition);
+    }
+}
+```
+- `http://localhost:8080/v1/members?teamName=teamB&ageGoe=31&ageLoe=35`
