@@ -192,3 +192,68 @@ public class MemberController {
 }
 ```
 - `http://localhost:8080/v1/members?teamName=teamB&ageGoe=31&ageLoe=35`
+
+
+
+---
+---
+## ✏️ `스프링 데이터 JPA와 Querydsl`
+
+### ✔️ `사용자 정의 리포지토리`
+
+**사용자 정의 리포지토리 사용법**
+1. 사용자 정의 인터페이스 작성
+2. 사용자 정의 인터페이스 구현
+3. 스프링 데이터 리포지토리에 사용자 정의 인터페이스 상속
+
+![alt text](image/image-72.png)
+
+```java
+@Repository
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
+    List<Member> findByUsername(String username);
+
+}
+```
+
+```java
+public interface MemberRepositoryCustom {
+    List<MemberTeamDto> search(MemberSearchCondition condition);
+}
+
+
+//=======================================
+public class MemberRepositoryImpl implements MemberRepositoryCustom{
+
+    private final JPAQueryFactory queryFactory;
+
+    public MemberRepositoryImpl(EntityManager em) {
+        this.queryFactory = new JPAQueryFactory(em);
+    }
+
+    @Override
+    public List<MemberTeamDto> search(MemberSearchCondition condition){
+        return queryFactory
+                .select(new QMemberTeamDto(
+                        member.id,
+                        member.username,
+                        member.age,
+                        team.id,
+                        team.name))
+                .from(member)
+                .leftJoin(member.team, team)
+                .where(
+                        usernameEq(condition.getUsername()),
+                        teamNameEq(condition.getTeamName()),
+                        ageGoe(condition.getAgeGoe()),
+                        ageLoe(condition.getAgeLoe())
+                )
+                .fetch();
+    }
+
+  //...순수 JPA Repository 코드와 같음
+}
+```
+
+---
+### ✔️ `페이징 활용`
