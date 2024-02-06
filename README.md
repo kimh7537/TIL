@@ -62,7 +62,7 @@ _34 TILs and counting..._
 - [(SpringDataJPA)2.확장,분석](스프링/(SpringDataJPA)2.확장,분석.md)
 
 ### [알고리즘(C++)](#알고리즘(C++))
-- [DFS,BFS](알고리즘(C++)/DFS,BFS.md)
-- [구현](알고리즘(C++)/구현.md)
+- [1.구현](알고리즘(C++)/1.구현.md)
+- [2.DFS,BFS](알고리즘(C++)/2.DFS,BFS.md)
 
 
