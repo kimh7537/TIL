@@ -4,13 +4,13 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_34 TILs and counting..._
+_35 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
-- [1.PostgreSQL](데이터베이스/1.PostgreSQL.md) - Mon Jan 29 22:12:49 2024 +0900
+- [3.완전탐색,백트래킹](알고리즘(C++)/3.완전탐색,백트래킹.md) - Tue Feb 13 16:50:12 2024 +0900
 - [2.PostgreSQL](데이터베이스/2.PostgreSQL.md) - Mon Jan 29 22:12:49 2024 +0900
 
 ### Categories
@@ -64,5 +64,6 @@ _34 TILs and counting..._
 ### [알고리즘(C++)](#알고리즘(C++))
 - [1.구현](알고리즘(C++)/1.구현.md)
 - [2.DFS,BFS](알고리즘(C++)/2.DFS,BFS.md)
+- [3.완전탐색,백트래킹](알고리즘(C++)/3.완전탐색,백트래킹.md)
 
 
