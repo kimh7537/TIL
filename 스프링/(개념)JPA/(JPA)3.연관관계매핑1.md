@@ -156,6 +156,39 @@ for(Member m : members){
     System.out.println("m.getUsername() = " + m.getUsername());
 }
 ```
+```
+//Lazy 로딩 일때
+Hibernate: 
+    select
+        m1_0.member_id,
+        m1_0.age,
+        m1_0.team_id,
+        m1_0.username 
+    from
+        Member m1_0 
+    where
+        m1_0.member_id=?
+ ===
+Hibernate: 
+    select
+        t1_0.team_id,
+        t1_0.name 
+    from
+        Team t1_0 
+    where
+        t1_0.team_id=?
+kkk
+Hibernate: 
+    select
+        m1_0.team_id,
+        m1_0.member_id,
+        m1_0.age,
+        m1_0.username 
+    from
+        Member m1_0 
+    where
+        m1_0.team_id=?
+```
 
 **객체 연관관계 = 2개**
 - 회원 -> 팀 연관관계 1개(단방향)
