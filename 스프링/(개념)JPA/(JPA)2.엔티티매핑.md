@@ -57,8 +57,9 @@ public class Member {
 
 - 유니크 제약조건 추가
 
+<span style="color: #2D3748; background-color: #fff5b1;"> 
 `@Table(uniqueConstraints = {@UniqueConstraint( name = "NAME_AGE_UNIQUE",
-columnNames = {"NAME", "AGE"} )})`
+columnNames = {"NAME", "AGE"} )})`</span>
 
 - **DDL 생성 기능은 DDL을 자동 생성할 때만 사용되고
 JPA의 실행 로직에는 영향을 주지 않음**
@@ -114,8 +115,8 @@ em.persist(member);
 - `unique=true` : column에서 사용하면 이름이 랜덤처럼 나오게 됨
 - `@Table(uniqueConstraints = ...)`은 이름을 줄 수 있어서 여기서 사용
 - 둘 다(unique, @Table(uniqueConstraints = )) value의 unique를 만드는 기능은 같음
-> 여기서 이름이란?<br>
-> `alter table Member add constraint UK_slfjs... unique (name)`과 제약 조건에서 UK...을 의미
+> <span style="color: #2D3748; background-color: #fff5b1;"> 여기서 이름이란?<br>
+> `alter table Member add constraint UK_slfjs... unique (name)`과 제약 조건에서 UK...을 의미</span>
 
 
 ### ✔️ `@Temporal`
@@ -193,8 +194,10 @@ member.setUsername("C");
 em.persist(member); //INSERT SQL 실행
 System.out.println(member.getId()) //값을 바로 알 수 있음
 ```
-- 바로 member.getId()하면 select쿼리 안날아가고 바로 조회가능
+<span style="color: #2D3748; background-color: #fff5b1;"> 
+- 바로 member.getId()하면 select쿼리 안날아가고 바로 조회가능<br>
 - JPA가 자동으로 PK값을 들고와 넣어주고, 영속성컨텍스트도 PK값을 사용
+</span>
 
 ---
 #### ✨ `SEQUENCE`

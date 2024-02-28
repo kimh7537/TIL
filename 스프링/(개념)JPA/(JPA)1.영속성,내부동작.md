@@ -252,10 +252,11 @@ em.remove(memberA); //엔티티 삭제
 2. 수정된 엔티티 쓰기 지연 SQL 저장소에 등록
 3. 쓰기 지연 SQL 저장소의 쿼리를 데이터베이스에 전송(등록, 수정, 삭제)
 
-- **영속성 컨텍스트를 비우지 않음!**
-   - 쓰기 지연 저장소에 있던것이 DB에 반영되는것이 flush라 생각하기⬇️
-   - 영속성 컨텍스트의 변경내용을 데이터베이스에 동기화하는것
-- 트랙잭션이라는 작업 단위의 커밋(작업끝내기) 직전에만 DB에 동기화하면 됨(변경내용 날려줌)
+<span style="color: #2D3748; background-color: #fff5b1;"> **영속성 컨텍스트를 비우지 않음!**</span>
+   - <span style="color: #2D3748; background-color: #fff5b1;">쓰기 지연 저장소에 있던것이 DB에 반영되는것이 flush라 생각하기⬇️</span>
+   - <span style="color: #2D3748; background-color: #fff5b1;">영속성 컨텍스트의 변경내용을 데이터베이스에 동기화하는것</span>
+   <br>
+- <span style="color: #2D3748; background-color: #fff5b1;">트랙잭션이라는 작업 단위의 커밋(작업끝내기) 직전에만 DB에 동기화하면 됨(변경내용 날려줌)</span>
 
 
 ### ✔️ 방법

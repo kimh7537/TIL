@@ -102,9 +102,31 @@ Member findMember = em.find(Member.class, member.getId());
 Team findTeam = findMember.getTeam();
 System.out.println("findTeam.getName() = " + findTeam.getName());
 ```
-- `member`를 DB에서 찾을 때, `Member`객체가 `Team`을 가지고 있으므로 `join` 사용한 `SELECT`쿼리가 DB로 들어감
-- (member, team 2개 들고옴)(LAZY라면 쿼리 분리하기)
-- ```select m from member m join team where ...```이런식으로 쿼리가 나가게됨(정확하지는 않고 대략 이런느낌)
+```
+- Lazy아닐때 이런 쿼리 날아감
+select member_id, team_id(member), username, team_id(team), name
+from Member
+left outer join Team
+on team_id(member) = team_id(team)
+where member_id = ?
+```
+<span style="color: #2D3748; background-color: #fff5b1;"> 
+- `member`를 DB에서 찾을 때, `Member`객체가 `Team`을 가지고 있으므로 `join` 사용한 `SELECT`쿼리가 DB로 들어감<br>
+- member, team 2개 들고옴<br>
+- LAZY라면 쿼리 분리하기<br>
+</span>
+
+```
+- Lazy 일때 쿼리
+select member_id, team_id, username
+from Member
+where member_id = ?
+
+select team_id, name
+from Team
+where team_id = ?
+```
+
 
 **연관관계 수정**
 ```java
@@ -112,7 +134,7 @@ System.out.println("findTeam.getName() = " + findTeam.getName());
 Team teamB = new Team();
 teamB.setName("TeamB");
 em.persist(teamB);
-// 회원1에 새로운 팀B 설정
+// 회원1에 새로운 팀B 설정, DB에 업데이트 됨(변경 감지)
 member.setTeam(teamB);
 ```
 
@@ -219,18 +241,55 @@ member.setUsername("member1");
 member.setTeam(team);
 em.persist(member);
 
+Member member1 = new Member();
+member1.setUsername("member2");
+member1.setTeam(team);
+em.persist(member1);
+
 //team.getMembers().add(member);
 
 em.flush();
 em.clear();
 
-Team findTeam = em.find(Team.class, team.getId());
-List<Member> members = findTeam.getMembers(); 
+
+Team findTeam = em.find(Team.class, team.getId()); //쿼리 1개(select team_id, name ...)
+
+System.out.println("hello");
+List<Member> members = findTeam.getMembers();
+System.out.println("good");
 for(Member m : members){                       
     System.out.println("m.getUsername() = " + m.getUsername());
-    //m.getUsername() = member1
 }
 ```
+
+```
+//Lazy, Eager 쿼리 같음
+Hibernate: 
+    select
+        t1_0.team_id,
+        t1_0.name 
+    from
+        Team t1_0 
+    where
+        t1_0.team_id=?
+hello
+good
+Hibernate: 
+    select
+        m1_0.team_id,
+        m1_0.member_id,
+        m1_0.username 
+    from
+        Member m1_0 
+    where
+        m1_0.team_id=?
+m.getUsername() = member1
+m.getUsername() = member2
+```
+<span style="color: #2D3748; background-color: #fff5b1;">
+JPA가 List 값을 실사용할때(m.getUsername()) 지연로딩으로 값을 가지고오는 기능을 함 
+</span>
+
 데이터베이스에서 `Team`, `Member`객체 들고옴
 - `team.getMembers().add(member)`코드가 없어도 JPA에서 `Team`과 `Team의 members`에 해당하는 값에 대한 쿼리를 날려서 값 들고옴 <br>
 -> 이미 DB에 데이터 저장했기 때문에 가능<br>
