@@ -100,7 +100,7 @@ Member findMember = em.find(Member.class, member.getId());
 
 //참조를 사용해서 연관관계 조회
 Team findTeam = findMember.getTeam();
-System.out.println("findTeam.getName() = " + findTeam.getName());
+System.out.println("findTeam.getName() = " + findTeam.getName()); //sql 쿼리 날아감
 ```
 ```
 - Lazy아닐때 이런 쿼리 날아감
