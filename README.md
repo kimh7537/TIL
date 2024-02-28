@@ -10,8 +10,8 @@ _16 TILs and counting..._
 
 ### 2 most recent TILs
 
+- [버전관리](GIT/1.버전관리.md) - Wed Feb 28 16:20:53 2024 +0900
 - [1.EC2](AWS/1.EC2.md) - Sun Feb 25 22:05:48 2024 +0900
-- [3.완전탐색,백트래킹](알고리즘(C++)/3.완전탐색,백트래킹.md) - Tue Feb 13 16:50:12 2024 +0900
 
 ### Categories
 
@@ -26,7 +26,7 @@ _16 TILs and counting..._
 - [1.EC2](AWS/1.EC2.md)
 
 ### [GIT](#GIT)
-- [hellogit](GIT/hellogit.md)
+- [버전관리](GIT/1.버전관리.md)
 
 ### [JAVA](#JAVA)
 - [1.Class클래스](JAVA/1.Class클래스.md)
