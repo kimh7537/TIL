@@ -112,7 +112,10 @@ em.persist(member);
 
 - `unique`는 잘 쓰지 않음, 주로 `@Table`에서 사용하는 것 선호
 - `unique=true` : column에서 사용하면 이름이 랜덤처럼 나오게 됨
-- `@Table(uniqueConstraints = name)`은 이름을 줄 수 있어서 여기서 사용
+- `@Table(uniqueConstraints = ...)`은 이름을 줄 수 있어서 여기서 사용
+- 둘 다(unique, @Table(uniqueConstraints = )) value의 unique를 만드는 기능은 같음
+> 여기서 이름이란?<br>
+> `alter table Member add constraint UK_slfjs... unique (name)`과 제약 조건에서 UK...을 의미
 
 
 ### ✔️ `@Temporal`
@@ -171,7 +174,7 @@ private Integer temp;
 <br><br>
 - 단점: SQL쿼리를 모아서 한번에 DB에 보내는 것이 불가능
 - `em.persist(member)`: 여기서 INSERT SQL 실행
-    - 바로 member.getId()하면 select쿼리 안날아가고 바로 조회가능
+    
 
 
 ```java
@@ -188,7 +191,11 @@ Member member = new Member();
 //member.setId("ID_A");  //Identity는 내가 넣을 필요가 없음(자동으로 생성)
 member.setUsername("C");
 em.persist(member); //INSERT SQL 실행
+System.out.println(member.getId()) //값을 바로 알 수 있음
 ```
+- 바로 member.getId()하면 select쿼리 안날아가고 바로 조회가능
+- JPA가 자동으로 PK값을 들고와 넣어주고, 영속성컨텍스트도 PK값을 사용
+
 ---
 #### ✨ `SEQUENCE`
 
@@ -249,7 +256,7 @@ System.out.println("===");
         name = "MEMBER_SEQ_GENERATOR",
         table = "MY_SEQUENCES",
         pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
-
+...
 @Id
 @GeneratedValue(strategy = GenerationType.TABLE, generator = "MEMBER_SEQ_GENERATOR")
 private Long id;
@@ -263,8 +270,9 @@ private String username;
 
 ![!\[Alt text\](image.png)](image/image-14.png)
 ![!\[Alt text\](image-1.png)](image/image-15.png)
+---
 
-> **권장하는 식별자 전략**
+> **권장하는 식별자(PK) 전략**
 >- 기본 키 제약 조건: null 아님, 유일, 변하면 안됨
->- 미래까지 이 조건을 만족하는 자연키는 찾기 어려움, 대체키사용하기
+>- 미래까지 이 조건을 만족하는 자연키는 찾기 어려움, 대체키(random 값)사용하기
 >- 권장: Long형 + 대체키 + 키 생성전략 사용
