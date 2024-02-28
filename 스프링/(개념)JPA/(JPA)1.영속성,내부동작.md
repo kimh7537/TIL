@@ -73,7 +73,7 @@ public static void main(String[] args) {
 ## ✏️ `영속성 컨텍스트`
 ### ✔️ 정의
 
-![!\[Alt text\](image.png)](image/image.png)
+![alt text](image/image.png)
 - 엔티티를 영구 저장하는 환경
 - 영속성 컨텍스트는 논리적인 개념, 눈에 보이지 않음
 - 엔티티메니저로 접근 가능
