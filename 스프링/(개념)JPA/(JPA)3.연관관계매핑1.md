@@ -151,7 +151,9 @@ private List<Member> members = new ArrayList<>();
 Member findMember = em.find(Member.class, member.getId());
 
 //역방향 조회
+System.out.println(" ===");
 List<Member> members = findMember.getTeam().getMembers();
+System.out.println("kkk");
 for(Member m : members){
     System.out.println("m.getUsername() = " + m.getUsername());
 }
