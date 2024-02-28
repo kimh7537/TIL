@@ -4,22 +4,26 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_15 TILs and counting..._
+_16 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
+- [1.EC2](AWS/1.EC2.md) - Sun Feb 25 22:05:48 2024 +0900
 - [3.완전탐색,백트래킹](알고리즘(C++)/3.완전탐색,백트래킹.md) - Tue Feb 13 16:50:12 2024 +0900
-- [0.Relational_model](데이터베이스/0.Relational_model.md) - Mon Jan 29 22:12:49 2024 +0900
 
 ### Categories
 
+- [AWS](#AWS)
 - [GIT](#GIT)
 - [JAVA](#JAVA)
 - [데이터베이스](#데이터베이스)
 - [스프링](#스프링)
 - [알고리즘(C++)](#알고리즘(C++))
+
+### [AWS](#AWS)
+- [1.EC2](AWS/1.EC2.md)
 
 ### [GIT](#GIT)
 - [hellogit](GIT/hellogit.md)
