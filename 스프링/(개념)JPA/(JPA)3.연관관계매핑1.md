@@ -100,7 +100,7 @@ Member findMember = em.find(Member.class, member.getId());
 
 //참조를 사용해서 연관관계 조회
 Team findTeam = findMember.getTeam();
-System.out.println("findTeam.getName() = " + findTeam.getName());
+System.out.println("findTeam.getName() = " + findTeam.getName()); //sql 쿼리 날아감(Lazy일때)
 ```
 ```
 - Lazy아닐때 이런 쿼리 날아감
@@ -151,10 +151,45 @@ private List<Member> members = new ArrayList<>();
 Member findMember = em.find(Member.class, member.getId());
 
 //역방향 조회
+System.out.println(" ===");
 List<Member> members = findMember.getTeam().getMembers();
+System.out.println("kkk");
 for(Member m : members){
     System.out.println("m.getUsername() = " + m.getUsername());
 }
+```
+```
+//Lazy 로딩 일때
+Hibernate: 
+    select
+        m1_0.member_id,
+        m1_0.age,
+        m1_0.team_id,
+        m1_0.username 
+    from
+        Member m1_0 
+    where
+        m1_0.member_id=?
+ ===
+Hibernate: 
+    select
+        t1_0.team_id,
+        t1_0.name 
+    from
+        Team t1_0 
+    where
+        t1_0.team_id=?
+kkk
+Hibernate: 
+    select
+        m1_0.team_id,
+        m1_0.member_id,
+        m1_0.age,
+        m1_0.username 
+    from
+        Member m1_0 
+    where
+        m1_0.team_id=?
 ```
 
 **객체 연관관계 = 2개**
