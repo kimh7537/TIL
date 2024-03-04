@@ -45,7 +45,7 @@
 @Query("select s from Stock s where s.id = :id")
 Stock findByIdWithPessimisticLock(@Param("id") Long id);
 ```
-![Alt text](image.png)
+![alt text](image/image.png)
 
 
 ### 2. `Optimistic Lock`(낙관적 락)
@@ -63,7 +63,7 @@ Stock findByIdWithPessimisticLock(@Param("id") Long id);
 Stock findByIdWithOptimisticLock(@Param("id") Long id);
 ```
 
-![Alt text](image-1.png)
+![alt text](image/image-1.png)
 
 
 ### 3. `Named Lock`
