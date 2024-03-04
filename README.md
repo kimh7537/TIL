@@ -4,13 +4,13 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_16 TILs and counting..._
+_18 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
-- [버전관리](GIT/1.버전관리.md) - Wed Feb 28 16:20:53 2024 +0900
+- [1.버전관리](GIT/1.버전관리.md) - Wed Feb 28 16:20:53 2024 +0900
 - [1.EC2](AWS/1.EC2.md) - Sun Feb 25 22:05:48 2024 +0900
 
 ### Categories
@@ -26,7 +26,9 @@ _16 TILs and counting..._
 - [1.EC2](AWS/1.EC2.md)
 
 ### [GIT](#GIT)
-- [버전관리](GIT/1.버전관리.md)
+- [1.버전관리](GIT/1.버전관리.md)
+- [2.원격](GIT/2.원격.md)
+- [1.버전관리](GIT/diff&revert.md)
 
 ### [JAVA](#JAVA)
 - [1.Class클래스](JAVA/1.Class클래스.md)
