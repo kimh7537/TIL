@@ -1,4 +1,4 @@
-#1.버전관리
+#diff&revert
 
 ---
 ## ✏️ `git diff`
