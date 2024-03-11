@@ -4,7 +4,7 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_18 TILs and counting..._
+_22 TILs and counting..._
 
 ---
 
@@ -23,12 +23,16 @@ _18 TILs and counting..._
 - [알고리즘(C++)](#알고리즘(C++))
 
 ### [AWS](#AWS)
+- [1-1.EC2배포방법(spring)](AWS/1-1.EC2배포방법(spring).md)
 - [1.EC2](AWS/1.EC2.md)
+- [2.ROUTE53](AWS/2.ROUTE53.md)
+- [2.ELB(HTTPS)](AWS/3.ELB(HTTPS).md)
+- [4.RDS](AWS/4.RDS.md)
 
 ### [GIT](#GIT)
 - [1.버전관리](GIT/1.버전관리.md)
 - [2.원격](GIT/2.원격.md)
-- [1.버전관리](GIT/diff&revert.md)
+- [diff&revert](GIT/diff&revert.md)
 
 ### [JAVA](#JAVA)
 - [1.Class클래스](JAVA/1.Class클래스.md)
