@@ -4,14 +4,14 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_22 TILs and counting..._
+_23 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
+- [5.S3](AWS/5.S3.md) - Tue Mar 12 02:27:12 2024 +0900
 - [1.버전관리](GIT/1.버전관리.md) - Wed Feb 28 16:20:53 2024 +0900
-- [1.EC2](AWS/1.EC2.md) - Sun Feb 25 22:05:48 2024 +0900
 
 ### Categories
 
@@ -28,6 +28,7 @@ _22 TILs and counting..._
 - [2.ROUTE53](AWS/2.ROUTE53.md)
 - [2.ELB(HTTPS)](AWS/3.ELB(HTTPS).md)
 - [4.RDS](AWS/4.RDS.md)
+- [5.S3](AWS/5.S3.md)
 
 ### [GIT](#GIT)
 - [1.버전관리](GIT/1.버전관리.md)
