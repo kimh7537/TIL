@@ -1,4 +1,4 @@
-# 3.String관련
+# String관련
 
 ## ✏️ String
 ### ✔️ String 선언하기
