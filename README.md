@@ -4,21 +4,20 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_24 TILs and counting..._
+_22 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
-- [6.Cloudfront](AWS/6.Cloudfront.md) - Mon Mar 18 20:00:38 2024 +0900
-- [5.S3](AWS/5.S3.md) - Tue Mar 12 02:27:12 2024 +0900
+- [Class클래스](JAVA/Class클래스.md) - Thu Mar 21 19:40:56 2024 +0900
+- [컬렉션](JAVA/컬렉션.md) - Thu Mar 21 19:40:56 2024 +0900
 
 ### Categories
 
 - [AWS](#AWS)
 - [GIT](#GIT)
 - [JAVA](#JAVA)
-- [데이터베이스](#데이터베이스)
 - [스프링](#스프링)
 - [알고리즘(C++)](#알고리즘(C++))
 
@@ -37,15 +36,11 @@ _24 TILs and counting..._
 - [diff&revert](GIT/diff&revert.md)
 
 ### [JAVA](#JAVA)
-- [1.Class클래스](JAVA/1.Class클래스.md)
-- [2.Object클래스](JAVA/2.Object클래스.md)
-- [3.String관련](JAVA/3.String관련.md)
-- [4.컬렉션](JAVA/4.컬렉션.md)
-
-### [데이터베이스](#데이터베이스)
-- [0.Relational_model](데이터베이스/0.Relational_model.md)
-- [1.PostgreSQL](데이터베이스/1.PostgreSQL.md)
-- [2.PostgreSQL](데이터베이스/2.PostgreSQL.md)
+- [Class클래스](JAVA/Class클래스.md)
+- [Enum](JAVA/Enum.md)
+- [Object클래스](JAVA/Object클래스.md)
+- [String관련](JAVA/String관련.md)
+- [컬렉션](JAVA/컬렉션.md)
 
 ### [스프링](#스프링)
 - [(Spring+JPA)1.활용](스프링/(Spring+JPA)1.활용.md)
