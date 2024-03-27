@@ -4,14 +4,14 @@
 오늘 배운 것들을 정리하는 곳 ✨
 
 
-_22 TILs and counting..._
+_23 TILs and counting..._
 
 ---
 
 ### 2 most recent TILs
 
+- [비트마스킹](알고리즘(C++)/4.비트마스킹.md) - Wed Mar 27 14:22:53 2024 +0900
 - [Class클래스](JAVA/Class클래스.md) - Thu Mar 21 19:40:56 2024 +0900
-- [컬렉션](JAVA/컬렉션.md) - Thu Mar 21 19:40:56 2024 +0900
 
 ### Categories
 
@@ -52,5 +52,6 @@ _22 TILs and counting..._
 - [1.구현](알고리즘(C++)/1.구현.md)
 - [2.DFS,BFS](알고리즘(C++)/2.DFS,BFS.md)
 - [3.완전탐색,백트래킹](알고리즘(C++)/3.완전탐색,백트래킹.md)
+- [비트마스킹](알고리즘(C++)/4.비트마스킹.md)
 
 
